@@ -1,160 +1,152 @@
-"use client";
-
 import {
   FileText,
   Upload,
   MessageSquare,
-  BookOpen,
-  Star,
+  Folder,
   Settings,
   Moon,
-  User
+  User,
 } from "lucide-react";
-
-
-const menuItems = [
-  {
-    name: "Documents",
-    icon: FileText,
-  },
-  {
-    name: "Upload",
-    icon: Upload,
-  },
-  {
-    name: "AI Chat",
-    icon: MessageSquare,
-  },
-  {
-    name: "Notebooks",
-    icon: BookOpen,
-  },
-  {
-    name: "Favorites",
-    icon: Star,
-  },
-];
-
 
 export default function Sidebar() {
 
+  const menu = [
+    { icon: FileText, label: "Documents" },
+    { icon: Upload, label: "Upload" },
+    { icon: MessageSquare, label: "Chats" },
+    { icon: Folder, label: "Collections" },
+    { icon: Settings, label: "Settings" },
+  ];
+
+
   return (
-    <aside className="h-screen w-64 bg-white border-r p-5 flex flex-col">
+    <aside 
+      className="
+      w-64 
+      h-screen 
+      bg-zinc-900 
+      text-white 
+      p-5 
+      border-r 
+      border-zinc-800
+      flex
+      flex-col
+      "
+    >
 
       {/* Logo */}
+
       <div className="mb-8">
-        <h1 className="text-xl font-bold">
-          AI Workspace
+
+        <h1 className="text-2xl font-bold">
+          AI Docs
         </h1>
-        <p className="text-sm text-gray-500">
-          Document Intelligence
+
+        <p className="text-sm text-zinc-400 mt-1">
+          Knowledge Workspace
         </p>
+
       </div>
 
 
-      {/* Menu */}
+
+      {/* Navigation */}
+
       <nav className="space-y-2 flex-1">
 
-        {menuItems.map((item)=>{
+        {menu.map((item) => (
 
-          const Icon = item.icon;
+          <button
+            key={item.label}
+            className="
+            flex 
+            items-center 
+            gap-3 
+            w-full 
+            px-4 
+            py-3 
+            rounded-lg 
+            text-zinc-300
+            hover:bg-zinc-800
+            hover:text-white
+            transition
+            "
+          >
 
-          return (
-            <button
-              key={item.name}
-              className="
-              w-full
-              flex
-              items-center
-              gap-3
-              px-3
-              py-2
-              rounded-lg
-              text-gray-700
-              hover:bg-gray-100
-              transition
-              "
-            >
+            <item.icon size={20} />
 
-              <Icon size={20}/>
+            <span>
+              {item.label}
+            </span>
 
-              <span>
-                {item.name}
-              </span>
+          </button>
 
-            </button>
-          )
-
-        })}
-
-
-        <button
-        className="
-        w-full
-        flex
-        items-center
-        gap-3
-        px-3
-        py-2
-        rounded-lg
-        hover:bg-gray-100
-        "
-        >
-
-          <Settings size={20}/>
-          Settings
-
-        </button>
+        ))}
 
 
       </nav>
 
 
-      {/* Bottom Section */}
-      <div className="border-t pt-4 space-y-3">
 
+      {/* Bottom Section */}
+
+      <div className="border-t border-zinc-800 pt-4 space-y-3">
+
+
+        {/* Dark Mode */}
 
         <button
-        className="
-        flex
-        items-center
-        gap-3
-        px-3
-        py-2
-        w-full
-        rounded-lg
-        hover:bg-gray-100
-        "
+          className="
+          flex
+          items-center
+          gap-3
+          w-full
+          px-4
+          py-3
+          rounded-lg
+          text-zinc-300
+          hover:bg-zinc-800
+          transition
+          "
         >
 
           <Moon size={20}/>
-          Dark Mode
+
+          <span>
+            Dark Mode
+          </span>
 
         </button>
 
 
 
+        {/* User */}
+
         <div
-        className="
-        flex
-        items-center
-        gap-3
-        p-3
-        rounded-lg
-        bg-gray-100
-        "
+          className="
+          flex
+          items-center
+          gap-3
+          bg-zinc-800
+          rounded-lg
+          p-3
+          "
         >
 
-          <User size={25}/>
+          <User size={24}/>
+
 
           <div>
+
             <p className="font-medium">
-              Sarvdnya
+              SARVDNYA
             </p>
 
-            <p className="text-xs text-gray-500">
+
+            <p className="text-xs text-zinc-400">
               Free Plan
             </p>
+
           </div>
 
 

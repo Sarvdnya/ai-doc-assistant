@@ -1,16 +1,34 @@
+"use client";
+
+import { useState } from "react";
+
 import AppLayout from "@/components/layout/AppLayout";
+import DocumentList from "@/components/document/DocumentList";
+import ChatPanel from "@/components/chat/ChatPanel";
+import PdfViewer from "@/components/pdf/PdfViewer";
 
 export default function Dashboard() {
+  const [selectedDocument, setSelectedDocument] = useState<string | null>(null);
+
   return (
     <AppLayout>
-      <div className="grid grid-cols-2 gap-6 h-full">
-        <div className="bg-white rounded-xl shadow p-6">
-          <h2 className="text-xl font-semibold">PDF Viewer</h2>
-        </div>
+      <div className="flex flex-1 text-black">
+        <DocumentList
+          selectedDocument={selectedDocument}
+          onSelectDocument={setSelectedDocument}
+        />
 
-        <div className="bg-white rounded-xl shadow p-6">
-          <h2 className="text-xl font-semibold">AI Chat</h2>
-        </div>
+        <main className="flex-1 bg-gray-50 p-6">
+          <div className="flex gap-10 h-full">
+            <div className="w-[700px] h-[500px]">
+              <PdfViewer document={selectedDocument} />
+            </div>
+
+            <div className="w-[450px] h-[500px]">
+              <ChatPanel />
+            </div>
+          </div>
+        </main>
       </div>
     </AppLayout>
   );
