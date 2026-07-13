@@ -15,12 +15,20 @@
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "install": "^0.13.0",
+    "multer": "^2.2.0",
+    "npm": "^12.0.1",
+    "pdf-parse": "^1.1.1",
+    "pdfjs-dist": "^6.1.200",
+    "react-pdf": "^10.4.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
+    "@types/multer": "^2.2.0",
     "@types/node": "^26.1.1",
+    "@types/pdf-parse": "^1.1.5",
     "tsx": "^4.23.0",
     "typescript": "5.9"
   }

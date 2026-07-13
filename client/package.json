@@ -9,13 +9,19 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "install": "^0.13.0",
     "lucide-react": "^1.24.0",
+    "multer": "^2.2.0",
     "next": "16.2.10",
+    "npm": "^12.0.1",
+    "pdfjs-dist": "^6.1.200",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "react-pdf": "^10.4.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/multer": "^2.2.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
