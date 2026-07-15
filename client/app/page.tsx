@@ -1,36 +1,74 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 
 import AppLayout from "@/components/layout/AppLayout";
 import DocumentList from "@/components/document/DocumentList";
 import ChatPanel from "@/components/chat/ChatPanel";
-import PdfViewer from "@/components/pdf/PdfViewer";
-import UploadBox from "@/components/upload/UploadBox";
+import UploadDropzone from "@/components/upload/UploadDropzone";
 
 import type { DocumentFile } from "@/components/document/types";
+import { deleteDocument, getDocuments } from "@/src/services/document.service";
+
+// pdf.js depends on browser-only APIs such as DOMMatrix, so it must not be
+// evaluated while Next.js renders this page on the server.
+const PdfViewer = dynamic(() => import("@/components/pdf/PdfViewer"), {
+    ssr: false,
+});
 
 export default function Dashboard() {
     const [documents, setDocuments] = useState<DocumentFile[]>([]);
 
     const [selectedDocument, setSelectedDocument] =
         useState<DocumentFile | null>(null);
+    const [isLoadingDocuments, setIsLoadingDocuments] = useState(true);
+    const [documentsError, setDocumentsError] = useState<string | null>(null);
 
-    const handleUpload = (files: File[]) => {
-        const uploadedDocs: DocumentFile[] = files.map((file) => ({
-            id: crypto.randomUUID(),
-            name: file.name,
-            file,
-            url: URL.createObjectURL(file),
-        }));
+    const loadDocuments = useCallback(async () => {
+        setIsLoadingDocuments(true);
+        setDocumentsError(null);
 
-        setDocuments((prev) => [...prev, ...uploadedDocs]);
-    };
+        try {
+            const nextDocuments = await getDocuments();
+            setDocuments(nextDocuments);
+            setSelectedDocument((current) =>
+                current
+                    ? nextDocuments.find((document) => document._id === current._id) ?? null
+                    : null
+            );
+        } catch (error) {
+            setDocumentsError(
+                error instanceof Error ? error.message : "Unable to load documents."
+            );
+        } finally {
+            setIsLoadingDocuments(false);
+        }
+    }, []);
+
+    const handleDeleteDocument = useCallback(async (id: string) => {
+        try {
+            await deleteDocument(id);
+            await loadDocuments();
+        } catch (error) {
+            setDocumentsError(
+                error instanceof Error ? error.message : "Unable to delete document."
+            );
+        }
+    }, [loadDocuments]);
+
+    useEffect(() => {
+        const loadTimer = window.setTimeout(() => {
+            void loadDocuments();
+        }, 0);
+
+        return () => window.clearTimeout(loadTimer);
+    }, [loadDocuments]);
 
     return (
         <AppLayout>
             <div className="p-4">
-                <UploadBox onUpload={handleUpload} />
+                <UploadDropzone onUploadSuccess={loadDocuments} />
             </div>
 
             <div className="flex flex-1 text-black">
@@ -38,6 +76,9 @@ export default function Dashboard() {
                     documents={documents}
                     selectedDocument={selectedDocument}
                     onSelectDocument={setSelectedDocument}
+                    onDeleteDocument={handleDeleteDocument}
+                    isLoading={isLoadingDocuments}
+                    error={documentsError}
                 />
 
                 <main className="flex-1 bg-gray-50 p-6">

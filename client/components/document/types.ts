@@ -1,6 +1,19 @@
 export interface DocumentFile {
-  id: string;
-  name: string;
-  file: File;
-  url: string;
+  _id: string;
+
+  originalName: string;
+
+  filename: string;
+
+  path: string;
+
+  size: number;
+
+  mimeType: string;
+
+  uploadedAt: string;
+
+  status: string;
+
+  fileUrl: string;
 }

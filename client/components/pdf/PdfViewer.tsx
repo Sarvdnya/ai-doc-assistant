@@ -26,7 +26,7 @@ export default function PdfViewer({ document }: Props) {
   return (
     <div className="overflow-auto h-full border rounded-xl bg-white p-4">
       <Document
-        file={document.url}
+        file={document.fileUrl}
         onLoadSuccess={({ numPages }) => setNumPages(numPages)}
       >
         {Array.from(new Array(numPages), (_, index) => (
