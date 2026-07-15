@@ -4,6 +4,6 @@ import { uploadPdf } from "../controllers/upload.controller.js";
 
 const router = Router();
 
-router.post("/", upload.single("pdf"), uploadPdf);
+router.post("/upload", upload.single("pdf"), uploadPdf);
 
 export default router;

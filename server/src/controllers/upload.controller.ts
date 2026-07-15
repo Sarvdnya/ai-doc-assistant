@@ -1,9 +1,8 @@
 import type { Request, Response } from "express";
-import { saveUpload } from "../services/upload.service.js";
+import Document from "../models/Document.model.js";
+import { processDocument } from "../services/documentProcessor.service.js";
 
 export async function uploadPdf(req: Request, res: Response): Promise<void> {
-  console.log("Upload request received");
-
   if (!req.file) {
     res.status(400).json({
       success: false,
@@ -12,12 +11,30 @@ export async function uploadPdf(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  const fileMeta = await saveUpload(req.file);
+  try {
+    console.log("Uploading...");
+    const document = await Document.create({
+      originalName: req.file.originalname,
+      filename: req.file.filename,
+      path: req.file.path,
+      size: req.file.size,
+      mimeType: req.file.mimetype,
+      status: "processing",
+    });
 
-  console.log(fileMeta);
+    // Do not await processing: the client receives the upload response while
+    // the document is parsed and its metadata is updated in the background.
+    void processDocument(document._id.toString(), req.file.path);
 
-  res.json({
-    success: true,
-    file: fileMeta,
-  });
+    res.status(201).json({
+      success: true,
+      document,
+    });
+  } catch (error) {
+    console.error("Upload failed:", error);
+    res.status(500).json({
+      success: false,
+      message: "Upload failed",
+    });
+  }
 }
