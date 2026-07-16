@@ -1,0 +1,9 @@
+{
+  "scene": 1,
+  "title": "Earthquake Safety and Preparedness Guide",
+  "duration": 9,
+  "narration": "Earthquakes strike suddenly without warning, caused by shifting tectonic plates. These powerful events can disrupt infrastructure and destroy entire communities in seconds.",
+  "visual": "Simple 2D flat illustration of the Earth's layers showing shifting rock plates beneath the surface.",
+  "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 1: Simple 2D flat illustration of the Earth's layers showing shifting rock plates beneath the surface.. Narration context: \"Earthquakes strike suddenly without warning, caused by shifting tectonic plates. These powerful events can disrupt infrastructure and destroy entire communities in seconds.\"",
+  "imagePath": "generated/images/scene-01.png"
+}

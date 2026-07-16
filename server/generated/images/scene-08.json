@@ -1,0 +1,9 @@
+{
+  "scene": 8,
+  "title": "Earthquake Safety and Preparedness Guide",
+  "duration": 9,
+  "narration": "When the shaking stops, put on sturdy shoes and evacuate carefully. Expect aftershocks, which can cause further damage to weakened structures.",
+  "visual": "Flat 3D illustration of a person putting on boots and walking outside with an emergency go-bag.",
+  "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 8: Flat 3D illustration of a person putting on boots and walking outside with an emergency go-bag.. Narration context: \"When the shaking stops, put on sturdy shoes and evacuate carefully. Expect aftershocks, which can cause further damage to weakened structures.\"",
+  "imagePath": "generated/images/scene-08.png"
+}

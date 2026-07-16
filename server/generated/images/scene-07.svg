@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#f0f4ff"/>
+  <rect x="160" y="240" width="1600" height="600" rx="24" fill="#ffffff" stroke="#2563eb" stroke-width="4"/>
+  <circle cx="960" cy="420" r="80" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
+  <text x="960" y="540" font-family="system-ui, sans-serif" font-size="48" fill="#1e3a8a" text-anchor="middle" font-weight="bold">Scene 7</text>
+  <text x="960" y="600" font-family="system-ui, sans-serif" font-size="28" fill="#475569" text-anchor="middle">No humans. clean flat 3D illustration, minimal, white background, soft shadow...</text>
+</svg>

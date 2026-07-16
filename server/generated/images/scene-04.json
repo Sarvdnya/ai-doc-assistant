@@ -1,0 +1,9 @@
+{
+  "scene": 4,
+  "title": "Earthquake Safety and Preparedness Guide",
+  "duration": 9,
+  "narration": "Build on stable bedrock and follow local anti-seismic building codes. Simple, symmetrical shapes and flexible materials help structures withstand intense shaking.",
+  "visual": "Flat 3D graphic showing a simple rectangular building on solid rock with arrows indicating flexibility.",
+  "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 4: Flat 3D graphic showing a simple rectangular building on solid rock with arrows indicating flexibility.. Narration context: \"Build on stable bedrock and follow local anti-seismic building codes. Simple, symmetrical shapes and flexible materials help structures withstand intense shaking.\"",
+  "imagePath": "generated/images/scene-04.png"
+}

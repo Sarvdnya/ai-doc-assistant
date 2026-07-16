@@ -1,0 +1,1 @@
+Training data flows through layers of interconnected neurons.

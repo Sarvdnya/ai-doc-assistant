@@ -1,0 +1,11 @@
+{
+  "title": "Machine Learning Overview",
+  "totalDuration": "24 seconds",
+  "totalScenes": 3,
+  "scenes": [
+    { "scene": 1, "duration": "8 sec", "narration": "Welcome to our educational overview of machine learning concepts.", "image": "images/scene1.png", "script": "script/scene1.txt" },
+    { "scene": 2, "duration": "8 sec", "narration": "Neural networks form the backbone of modern deep learning systems.", "image": "images/scene2.png", "script": "script/scene2.txt" },
+    { "scene": 3, "duration": "8 sec", "narration": "Training data flows through layers of interconnected neurons.", "image": "images/scene3.png", "script": "script/scene3.txt" }
+  ],
+  "generatedAt": "2026-07-16T16:00:00.000Z"
+}

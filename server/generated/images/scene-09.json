@@ -1,0 +1,9 @@
+{
+  "scene": 9,
+  "title": "Earthquake Safety and Preparedness Guide",
+  "duration": 9,
+  "narration": "Check for fires and immediately turn off gas lines. Never light matches or use electrical switches if you suspect a gas leak.",
+  "visual": "2D vector icon of a hand turning off a gas valve next to a crossed-out match symbol.",
+  "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 9: 2D vector icon of a hand turning off a gas valve next to a crossed-out match symbol.. Narration context: \"Check for fires and immediately turn off gas lines. Never light matches or use electrical switches if you suspect a gas leak.\"",
+  "imagePath": "generated/images/scene-09.png"
+}

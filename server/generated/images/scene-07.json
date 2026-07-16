@@ -1,0 +1,9 @@
+{
+  "scene": 7,
+  "title": "Earthquake Safety and Preparedness Guide",
+  "duration": 9,
+  "narration": "If you are outdoors, find a clear area away from buildings, power lines, and trees. Drop to the ground and stay there.",
+  "visual": "2D illustration of a figure kneeling in an open park area, with crossed-out power lines and tall buildings far in the background.",
+  "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 7: 2D illustration of a figure kneeling in an open park area, with crossed-out power lines and tall buildings far in the background.. Narration context: \"If you are outdoors, find a clear area away from buildings, power lines, and trees. Drop to the ground and stay there.\"",
+  "imagePath": "generated/images/scene-07.png"
+}

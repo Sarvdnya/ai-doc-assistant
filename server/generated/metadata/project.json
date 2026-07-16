@@ -1,0 +1,98 @@
+{
+  "title": "Earthquake Safety and Preparedness Guide",
+  "duration": "90 seconds",
+  "sceneCount": 10,
+  "scenes": [
+    {
+      "scene": 1,
+      "title": "Earthquake Safety and Preparedness Guide",
+      "duration": 9,
+      "narration": "Earthquakes strike suddenly without warning, caused by shifting tectonic plates. These powerful events can disrupt infrastructure and destroy entire communities in seconds.",
+      "visual": "Simple 2D flat illustration of the Earth's layers showing shifting rock plates beneath the surface.",
+      "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 1: Simple 2D flat illustration of the Earth's layers showing shifting rock plates beneath the surface.. Narration context: \"Earthquakes strike suddenly without warning, caused by shifting tectonic plates. These powerful events can disrupt infrastructure and destroy entire communities in seconds.\"",
+      "imagePath": "generated/images/scene-01.png"
+    },
+    {
+      "scene": 2,
+      "title": "Earthquake Safety and Preparedness Guide",
+      "duration": 9,
+      "narration": "Most damage and injuries occur due to poor building construction, unsafe locations, and a lack of preparation for securing heavy interior objects.",
+      "visual": "Flat 3D graphic showing a building shaking, highlighting weak foundations and loose furniture inside.",
+      "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 2: Flat 3D graphic showing a building shaking, highlighting weak foundations and loose furniture inside.. Narration context: \"Most damage and injuries occur due to poor building construction, unsafe locations, and a lack of preparation for securing heavy interior objects.\"",
+      "imagePath": "generated/images/scene-02.png"
+    },
+    {
+      "scene": 3,
+      "title": "Earthquake Safety and Preparedness Guide",
+      "duration": 9,
+      "narration": "Start by identifying the safest places in every room. Stay clear of windows, heavy furniture, fireplaces, and unsecured exterior walls.",
+      "visual": "2D vector plan of a living room with green checkmarks marking safe spots away from glass and tall cabinets.",
+      "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 3: 2D vector plan of a living room with green checkmarks marking safe spots away from glass and tall cabinets.. Narration context: \"Start by identifying the safest places in every room. Stay clear of windows, heavy furniture, fireplaces, and unsecured exterior walls.\"",
+      "imagePath": "generated/images/scene-03.png"
+    },
+    {
+      "scene": 4,
+      "title": "Earthquake Safety and Preparedness Guide",
+      "duration": 9,
+      "narration": "Build on stable bedrock and follow local anti-seismic building codes. Simple, symmetrical shapes and flexible materials help structures withstand intense shaking.",
+      "visual": "Flat 3D graphic showing a simple rectangular building on solid rock with arrows indicating flexibility.",
+      "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 4: Flat 3D graphic showing a simple rectangular building on solid rock with arrows indicating flexibility.. Narration context: \"Build on stable bedrock and follow local anti-seismic building codes. Simple, symmetrical shapes and flexible materials help structures withstand intense shaking.\"",
+      "imagePath": "generated/images/scene-04.png"
+    },
+    {
+      "scene": 5,
+      "title": "Earthquake Safety and Preparedness Guide",
+      "duration": 9,
+      "narration": "Secure your home by fastening heavy bookcases to walls and locking cabinet doors. Even minor retrofits dramatically reduce building collapse risks.",
+      "visual": "2D illustration of a hand securing a bookshelf bracket to a wall and placing latches on drawers.",
+      "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 5: 2D illustration of a hand securing a bookshelf bracket to a wall and placing latches on drawers.. Narration context: \"Secure your home by fastening heavy bookcases to walls and locking cabinet doors. Even minor retrofits dramatically reduce building collapse risks.\"",
+      "imagePath": "generated/images/scene-05.png"
+    },
+    {
+      "scene": 6,
+      "title": "Earthquake Safety and Preparedness Guide",
+      "duration": 9,
+      "narration": "If shaking starts, drop to your knees, cover your head and neck, and hold on to a sturdy table. Do not try to run.",
+      "visual": "Simple 2D icon of a person dropping under a sturdy desk, holding onto one of its legs.",
+      "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 6: Simple 2D icon of a person dropping under a sturdy desk, holding onto one of its legs.. Narration context: \"If shaking starts, drop to your knees, cover your head and neck, and hold on to a sturdy table. Do not try to run.\"",
+      "imagePath": "generated/images/scene-06.png"
+    },
+    {
+      "scene": 7,
+      "title": "Earthquake Safety and Preparedness Guide",
+      "duration": 9,
+      "narration": "If you are outdoors, find a clear area away from buildings, power lines, and trees. Drop to the ground and stay there.",
+      "visual": "2D illustration of a figure kneeling in an open park area, with crossed-out power lines and tall buildings far in the background.",
+      "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 7: 2D illustration of a figure kneeling in an open park area, with crossed-out power lines and tall buildings far in the background.. Narration context: \"If you are outdoors, find a clear area away from buildings, power lines, and trees. Drop to the ground and stay there.\"",
+      "imagePath": "generated/images/scene-07.png"
+    },
+    {
+      "scene": 8,
+      "title": "Earthquake Safety and Preparedness Guide",
+      "duration": 9,
+      "narration": "When the shaking stops, put on sturdy shoes and evacuate carefully. Expect aftershocks, which can cause further damage to weakened structures.",
+      "visual": "Flat 3D illustration of a person putting on boots and walking outside with an emergency go-bag.",
+      "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 8: Flat 3D illustration of a person putting on boots and walking outside with an emergency go-bag.. Narration context: \"When the shaking stops, put on sturdy shoes and evacuate carefully. Expect aftershocks, which can cause further damage to weakened structures.\"",
+      "imagePath": "generated/images/scene-08.png"
+    },
+    {
+      "scene": 9,
+      "title": "Earthquake Safety and Preparedness Guide",
+      "duration": 9,
+      "narration": "Check for fires and immediately turn off gas lines. Never light matches or use electrical switches if you suspect a gas leak.",
+      "visual": "2D vector icon of a hand turning off a gas valve next to a crossed-out match symbol.",
+      "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 9: 2D vector icon of a hand turning off a gas valve next to a crossed-out match symbol.. Narration context: \"Check for fires and immediately turn off gas lines. Never light matches or use electrical switches if you suspect a gas leak.\"",
+      "imagePath": "generated/images/scene-09.png"
+    },
+    {
+      "scene": 10,
+      "title": "Earthquake Safety and Preparedness Guide",
+      "duration": 9,
+      "narration": "Near coasts, move to higher ground immediately to escape potential tsunamis. In mountains, stay alert for falling rocks, landslides, or blocked streams.",
+      "visual": "Simple 2D flat landscape showing a path leading up a hill away from the ocean and a warning sign for falling rocks.",
+      "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 10: Simple 2D flat landscape showing a path leading up a hill away from the ocean and a warning sign for falling rocks.. Narration context: \"Near coasts, move to higher ground immediately to escape potential tsunamis. In mountains, stay alert for falling rocks, landslides, or blocked streams.\"",
+      "imagePath": "generated/images/scene-10.png"
+    }
+  ],
+  "generatedAt": "2026-07-16T12:16:47.804Z"
+}
