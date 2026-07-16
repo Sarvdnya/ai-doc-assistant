@@ -29,7 +29,7 @@ export async function generateEmbeddings(
 
   try {
     const response = await getClient().models.embedContent({
-      model: "text-embedding-004",
+      model: "models/gemini-embedding-001",
       contents: texts,
     });
 
@@ -44,7 +44,7 @@ export async function generateEmbeddings(
 export async function embedText(text: string): Promise<number[]> {
   try {
     const response = await getClient().models.embedContent({
-      model: "text-embedding-004",
+      model: "models/gemini-embedding-001",
       contents: text,
     });
 

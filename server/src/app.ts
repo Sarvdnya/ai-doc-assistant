@@ -3,6 +3,7 @@ import cors from "cors";
 import uploadRoutes from "./routes/upload.routes.js";
 import documentRoutes from "./routes/document.routes.js";
 import chatRoutes from "./routes/chat.routes.js";
+import searchRoutes from "./routes/search.routes.js";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use("/api", uploadRoutes);
 app.use("/api/documents", documentRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/search", searchRoutes);
 
 app.get("/", (_req, res) => {
   res.json({ message: "AI Document Assistant API is running 🚀" });

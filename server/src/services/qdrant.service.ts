@@ -3,7 +3,7 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const QDRANT_URL = process.env.QDRANT_URL || "http://localhost:6333";
 const QDRANT_API_KEY = process.env.QDRANT_API_KEY || "";
 const COLLECTION_NAME = process.env.QDRANT_COLLECTION || "documents";
-const VECTOR_SIZE = 768;
+const VECTOR_SIZE = 3072;
 
 let client: QdrantClient | null = null;
 
@@ -13,6 +13,7 @@ function getClient(): QdrantClient {
       url: QDRANT_URL,
       apiKey: QDRANT_API_KEY || undefined,
     });
+    console.log("[QDRANT] Connected");
   }
   return client;
 }
@@ -28,7 +29,7 @@ export async function createCollection(): Promise<void> {
     );
 
     if (exists) {
-      console.log("[QDRANT] Collection Ready");
+      console.log("[QDRANT] Collection already exists");
       return;
     }
 
@@ -39,7 +40,7 @@ export async function createCollection(): Promise<void> {
       },
     });
 
-    console.log(`[QDRANT] Collection "${COLLECTION_NAME}" created`);
+    console.log("[QDRANT] Collection created successfully");
   } catch (error) {
     throw new Error(
       `Failed to initialize Qdrant collection: ${error instanceof Error ? error.message : String(error)}`
