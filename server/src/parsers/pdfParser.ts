@@ -1,30 +1,43 @@
-
-
 import fs from "fs";
 import { createRequire } from "module";
 
-// `pdf-parse` 1.x runs a sample file when its package entry point is loaded
-// directly by an ESM loader. Loading the implementation file avoids that
-// debug-only side effect.
 const require = createRequire(import.meta.url);
-const pdf: typeof import("pdf-parse") = require("pdf-parse/lib/pdf-parse.js");
+const PDFJS = require("pdf-parse/lib/pdf.js/v1.10.100/build/pdf.js");
 
-export interface ParsedPdf {
+export interface PageContent {
+  pageNumber: number;
   text: string;
-  pageCount: number;
 }
 
-export async function parsePdf(path: string): Promise<ParsedPdf> {
-  const buffer = fs.readFileSync(path);
-  const data = await pdf(buffer);
+export async function parsePdfPages(filePath: string): Promise<PageContent[]> {
+  const buffer = fs.readFileSync(filePath);
 
-  return {
-    text: data.text,
-    pageCount: data.numpages,
-  };
-}
+  PDFJS.disableWorker = true;
+  const doc = await PDFJS.getDocument(buffer);
 
-export async function extractPdfText(path: string): Promise<string> {
-  const { text } = await parsePdf(path);
-  return text;
+  const pages: PageContent[] = [];
+
+  for (let i = 1; i <= doc.numPages; i++) {
+    const page = await doc.getPage(i);
+    const content = await page.getTextContent();
+
+    let lastY: number | null = null;
+    let text = "";
+
+    for (const item of content.items) {
+      const y = (item as { transform: number[] }).transform[5];
+      if (lastY === null || lastY === y) {
+        text += (item as { str: string }).str;
+      } else {
+        text += "\n" + (item as { str: string }).str;
+      }
+      lastY = y;
+    }
+
+    pages.push({ pageNumber: i, text: text.trim() });
+    console.log(`[PDF] Extracted Page ${i}`);
+  }
+
+  doc.destroy();
+  return pages;
 }

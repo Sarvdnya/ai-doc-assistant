@@ -1,19 +1,19 @@
-import OpenAI from "openai";
+import { GoogleGenAI } from "@google/genai";
 import { searchSimilarChunks } from "../vector/qdrant.service.js";
 
-let client: OpenAI | null = null;
+let client: GoogleGenAI | null = null;
 
-function getClient(): OpenAI {
+function getClient(): GoogleGenAI {
   if (!client) {
-    const apiKey = process.env.OPENAI_API_KEY;
+    const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
       throw new Error(
-        "OPENAI_API_KEY is not set. Please add it to your .env file."
+        "GEMINI_API_KEY is not set. Please add it to your .env file."
       );
     }
 
-    client = new OpenAI({ apiKey });
+    client = new GoogleGenAI({ apiKey });
   }
   return client;
 }
@@ -70,15 +70,17 @@ ${context}
 Answer the user's question using only the information above. If the context does not contain enough information to answer, say "I don't have enough information to answer that question based on the available documents."`;
 
   try {
-    const response = await getClient().responses.create({
-      model: "gpt-4o",
-      input: question,
-      instructions,
-      max_output_tokens: 1024,
+    const response = await getClient().models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: question,
+      config: {
+        systemInstruction: instructions,
+        maxOutputTokens: 1024,
+      },
     });
 
     return {
-      answer: response.output_text || "I could not generate an answer.",
+      answer: response.text || "I could not generate an answer.",
       sources,
     };
   } catch (error) {

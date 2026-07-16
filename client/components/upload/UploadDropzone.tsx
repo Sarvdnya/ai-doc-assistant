@@ -31,12 +31,15 @@ export default function UploadDropzone({ onUploadSuccess }: UploadDropzoneProps)
     file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
 
   const uploadFiles = async (files: File[]) => {
-    const pdfs = files.filter(isPdf);
-    if (pdfs.length === 0) return;
+    const nonPdfs = files.filter((f) => !isPdf(f));
+    if (nonPdfs.length > 0) {
+      setError("Only PDF files are allowed.");
+      return;
+    }
 
     setError(null);
 
-    for (const file of pdfs) {
+    for (const file of files) {
       setUploadingFileName(file.name);
       setUploadProgress(0);
       setUploadStatus("uploading");

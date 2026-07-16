@@ -77,8 +77,22 @@ export default function DocumentList({
             <div className="min-w-0 flex-1">
               <p className="text-sm truncate">{doc.originalName}</p>
               <p className="text-xs text-gray-500">
-                {new Date(doc.uploadedAt).toLocaleString()} · {doc.status}
+                {new Date(doc.uploadedAt).toLocaleString()}
               </p>
+              <span className={[
+                "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium mt-0.5",
+                doc.status === "uploading" && "bg-blue-100 text-blue-700",
+                doc.status === "processing" && "bg-yellow-100 text-yellow-700",
+                doc.status === "embedding" && "bg-purple-100 text-purple-700",
+                doc.status === "ready" && "bg-green-100 text-green-700",
+                doc.status === "failed" && "bg-red-100 text-red-700",
+              ].filter(Boolean).join(" ")}>
+                {doc.status === "uploading" && "\u25CF Uploading"}
+                {doc.status === "processing" && "\u25CF Processing"}
+                {doc.status === "embedding" && "\u25CF Embedding"}
+                {doc.status === "ready" && "\u25CF Ready"}
+                {doc.status === "failed" && "\u25CF Failed"}
+              </span>
             </div>
 
             <button

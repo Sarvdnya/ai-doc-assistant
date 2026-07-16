@@ -1,24 +1,21 @@
-import { OpenAIEmbeddings } from "@langchain/openai";
+import { GoogleGenAI } from "@google/genai";
 import type { Document } from "@langchain/core/documents";
 
-let embeddings: OpenAIEmbeddings | null = null;
+let client: GoogleGenAI | null = null;
 
-function getEmbeddings(): OpenAIEmbeddings {
-  if (!embeddings) {
-    const apiKey = process.env.OPENAI_API_KEY;
+function getClient(): GoogleGenAI {
+  if (!client) {
+    const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
       throw new Error(
-        "OPENAI_API_KEY is not set. Please add it to your .env file."
+        "GEMINI_API_KEY is not set. Please add it to your .env file."
       );
     }
 
-    embeddings = new OpenAIEmbeddings({
-      model: "text-embedding-3-small",
-      apiKey,
-    });
+    client = new GoogleGenAI({ apiKey });
   }
-  return embeddings;
+  return client;
 }
 
 export async function generateEmbeddings(
@@ -31,11 +28,30 @@ export async function generateEmbeddings(
   const texts = chunks.map((chunk) => chunk.pageContent);
 
   try {
-    const vectors = await getEmbeddings().embedDocuments(texts);
-    return vectors;
+    const response = await getClient().models.embedContent({
+      model: "text-embedding-004",
+      contents: texts,
+    });
+
+    return (response.embeddings ?? []).map((e) => e.values ?? []);
   } catch (error) {
     throw new Error(
       `Failed to generate embeddings: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
+}
+
+export async function embedText(text: string): Promise<number[]> {
+  try {
+    const response = await getClient().models.embedContent({
+      model: "text-embedding-004",
+      contents: text,
+    });
+
+    return response.embeddings?.[0]?.values ?? [];
+  } catch (error) {
+    throw new Error(
+      `Failed to generate embedding: ${error instanceof Error ? error.message : String(error)}`
     );
   }
 }

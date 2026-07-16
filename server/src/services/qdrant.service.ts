@@ -1,8 +1,7 @@
 import { QdrantClient } from "@qdrant/js-client-rest";
-import { Document } from "@langchain/core/documents";
-import { generateEmbeddings } from "../ai/embedding.service.js";
 
 const QDRANT_URL = process.env.QDRANT_URL || "http://localhost:6333";
+const QDRANT_API_KEY = process.env.QDRANT_API_KEY || "";
 const COLLECTION_NAME = process.env.QDRANT_COLLECTION || "documents";
 const VECTOR_SIZE = 768;
 
@@ -12,12 +11,13 @@ function getClient(): QdrantClient {
   if (!client) {
     client = new QdrantClient({
       url: QDRANT_URL,
+      apiKey: QDRANT_API_KEY || undefined,
     });
   }
   return client;
 }
 
-export async function initializeCollection(): Promise<void> {
+export async function createCollection(): Promise<void> {
   const qdrant = getClient();
 
   try {
@@ -28,7 +28,7 @@ export async function initializeCollection(): Promise<void> {
     );
 
     if (exists) {
-      console.log(`Collection "${COLLECTION_NAME}" already exists`);
+      console.log("[QDRANT] Collection Ready");
       return;
     }
 
@@ -39,7 +39,7 @@ export async function initializeCollection(): Promise<void> {
       },
     });
 
-    console.log(`Collection "${COLLECTION_NAME}" created`);
+    console.log(`[QDRANT] Collection "${COLLECTION_NAME}" created`);
   } catch (error) {
     throw new Error(
       `Failed to initialize Qdrant collection: ${error instanceof Error ? error.message : String(error)}`
@@ -47,10 +47,17 @@ export async function initializeCollection(): Promise<void> {
   }
 }
 
-export async function storeEmbeddings(
-  chunks: Document[],
-  vectors: number[][],
-  filename: string
+export interface ChunkData {
+  chunkIndex: number;
+  pageNumber: number;
+  text: string;
+}
+
+export async function upsertChunks(
+  documentId: string,
+  filename: string,
+  chunks: ChunkData[],
+  vectors: number[][]
 ): Promise<void> {
   if (chunks.length !== vectors.length) {
     throw new Error(
@@ -68,20 +75,23 @@ export async function storeEmbeddings(
     id: crypto.randomUUID(),
     vector: vectors[i],
     payload: {
-      text: chunk.pageContent,
+      documentId,
+      chunkIndex: chunk.chunkIndex,
+      pageNumber: chunk.pageNumber,
+      text: chunk.text,
       filename,
-      chunkIndex: chunk.metadata.chunkIndex ?? i,
-      page: chunk.metadata.page ?? 1,
     },
   }));
 
   try {
+    console.log(`[QDRANT] Uploading ${points.length} vectors`);
+
     await qdrant.upsert(COLLECTION_NAME, {
       wait: true,
       points,
     });
 
-    console.log(`Stored ${points.length} vectors in Qdrant`);
+    console.log(`[QDRANT] Stored ${points.length} vectors`);
   } catch (error) {
     throw new Error(
       `Failed to store embeddings in Qdrant: ${error instanceof Error ? error.message : String(error)}`
@@ -89,26 +99,42 @@ export async function storeEmbeddings(
   }
 }
 
-export interface SearchResult {
-  text: string;
-  filename: string;
-  chunkIndex: number;
-  page: number;
-  score: number;
-}
-
-export async function searchSimilarChunks(
-  query: string,
-  limit: number = 5
-): Promise<SearchResult[]> {
+export async function deleteDocumentVectors(
+  documentId: string
+): Promise<void> {
   const qdrant = getClient();
 
-  const queryDoc = new Document({ pageContent: query });
-  const queryVector = await generateEmbeddings([queryDoc]);
+  try {
+    await qdrant.delete(COLLECTION_NAME, {
+      filter: {
+        must: [{ key: "documentId", match: { value: documentId } }],
+      },
+    });
+  } catch (error) {
+    throw new Error(
+      `Failed to delete vectors for document ${documentId}: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
+}
+
+export async function search(
+  queryVector: number[],
+  limit: number = 5
+): Promise<
+  Array<{
+    documentId: string;
+    chunkIndex: number;
+    pageNumber: number;
+    text: string;
+    filename: string;
+    score: number;
+  }>
+> {
+  const qdrant = getClient();
 
   try {
     const results = await qdrant.search(COLLECTION_NAME, {
-      vector: queryVector[0],
+      vector: queryVector,
       limit,
       with_payload: true,
     });
@@ -116,10 +142,11 @@ export async function searchSimilarChunks(
     return results.map((point) => {
       const payload = point.payload as Record<string, unknown>;
       return {
-        text: payload?.text as string,
-        filename: payload?.filename as string,
-        chunkIndex: payload?.chunkIndex as number,
-        page: payload?.page as number,
+        documentId: (payload?.documentId as string) ?? "",
+        chunkIndex: (payload?.chunkIndex as number) ?? 0,
+        pageNumber: (payload?.pageNumber as number) ?? 1,
+        text: (payload?.text as string) ?? "",
+        filename: (payload?.filename as string) ?? "",
         score: point.score ?? 0,
       };
     });

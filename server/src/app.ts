@@ -1,14 +1,8 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
 import uploadRoutes from "./routes/upload.routes.js";
 import documentRoutes from "./routes/document.routes.js";
 import chatRoutes from "./routes/chat.routes.js";
-
-const serverDirectory = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-dotenv.config({ path: path.join(serverDirectory, ".env") });
 
 const app = express();
 

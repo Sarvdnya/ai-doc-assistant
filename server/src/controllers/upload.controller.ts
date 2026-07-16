@@ -19,7 +19,7 @@ export async function uploadPdf(req: Request, res: Response): Promise<void> {
       path: req.file.path,
       size: req.file.size,
       mimeType: req.file.mimetype,
-      status: "processing",
+      status: "uploading",
     });
 
     // Do not await processing: the client receives the upload response while

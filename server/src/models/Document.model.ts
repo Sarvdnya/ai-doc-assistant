@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
+
 export interface IDocument extends Document {
   originalName: string;
   filename: string;
@@ -9,13 +10,14 @@ export interface IDocument extends Document {
 
   uploadedAt: Date;
 
-  status: "uploading" | "processing" | "ready" | "failed";
+  status: "uploading" | "processing" | "embedding" | "ready" | "failed";
 
   pageCount: number;
   chunkCount: number;
-
   extractedText: string;
   summary: string;
+  processingError: string;
+  
 }
 
 const DocumentSchema = new Schema<IDocument>({
@@ -51,7 +53,7 @@ const DocumentSchema = new Schema<IDocument>({
 
   status: {
     type: String,
-    enum: ["uploading", "processing", "ready", "failed"],
+    enum: ["uploading", "processing", "embedding", "ready", "failed"],
     default: "uploading",
   },
 
@@ -71,6 +73,11 @@ const DocumentSchema = new Schema<IDocument>({
   },
 
   summary: {
+    type: String,
+    default: "",
+  },
+
+  processingError: {
     type: String,
     default: "",
   },
