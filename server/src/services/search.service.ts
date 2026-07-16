@@ -24,7 +24,7 @@ export async function searchDocuments(
   console.log("[SEARCH] Searching Qdrant");
   const results = await qdrantSearch(queryVector, limit);
 
-  console.log(`[SEARCH] Found ${results.length} matches`);
+  console.log(`[SEARCH] Found ${results.length} matching chunks`);
 
   return results.map((r) => ({
     documentId: r.documentId,

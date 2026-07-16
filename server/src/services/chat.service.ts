@@ -1,5 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
-import { searchSimilarChunks } from "../vector/qdrant.service.js";
+import { searchDocuments } from "./search.service.js";
 
 let client: GoogleGenAI | null = null;
 
@@ -20,7 +20,7 @@ function getClient(): GoogleGenAI {
 
 export interface Source {
   filename: string;
-  page: number;
+  pageNumber: number;
   chunkIndex: number;
 }
 
@@ -30,48 +30,56 @@ export interface ChatResult {
 }
 
 export async function askQuestion(question: string): Promise<ChatResult> {
+  console.log("[CHAT] Question received");
+
   if (!question || question.trim().length === 0) {
     throw new Error("Question cannot be empty");
   }
 
-  let searchResults;
-  try {
-    searchResults = await searchSimilarChunks(question, 5);
-  } catch (error) {
-    throw new Error(
-      `Failed to search for relevant content: ${error instanceof Error ? error.message : String(error)}`
-    );
-  }
+  console.log("[CHAT] Searching Qdrant");
+  const results = await searchDocuments(question, 5);
 
-  if (searchResults.length === 0) {
+  console.log(`[CHAT] Retrieved ${results.length} chunks`);
+
+  if (results.length === 0) {
     return {
       answer:
-        "I could not find any relevant information in the uploaded documents to answer your question.",
+        "I couldn't find this information in the uploaded documents.",
       sources: [],
     };
   }
 
-  const context = searchResults
+  const context = results
     .map((r, i) => `[${i + 1}] ${r.text}`)
     .join("\n\n");
 
-  const sources: Source[] = searchResults.map((r) => ({
+  const sources: Source[] = results.map((r) => ({
     filename: r.filename,
-    page: r.page,
+    pageNumber: r.pageNumber,
     chunkIndex: r.chunkIndex,
   }));
 
-  const instructions = `You are an AI assistant that answers questions only using the provided document context. If the answer cannot be found in the context, clearly state that you don't know.
+  const instructions = `You are an AI Document Assistant.
+
+Answer ONLY using the provided context.
+
+If the answer is not found in the context, reply:
+
+"I couldn't find this information in the uploaded documents."
 
 Context:
 
 ${context}
 
-Answer the user's question using only the information above. If the context does not contain enough information to answer, say "I don't have enough information to answer that question based on the available documents."`;
+Question:
+
+${question}`;
+
+  console.log("[CHAT] Sending context to Gemini");
 
   try {
     const response = await getClient().models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "models/gemini-3.5-flash",
       contents: question,
       config: {
         systemInstruction: instructions,
@@ -79,8 +87,10 @@ Answer the user's question using only the information above. If the context does
       },
     });
 
+    console.log("[CHAT] Answer generated");
+
     return {
-      answer: response.text || "I could not generate an answer.",
+      answer: response.text || "I couldn't find this information in the uploaded documents.",
       sources,
     };
   } catch (error) {

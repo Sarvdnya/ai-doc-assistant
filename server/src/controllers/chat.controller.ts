@@ -1,9 +1,22 @@
 import type { Request, Response } from "express";
+import { askQuestion as getAnswer } from "../services/chat.service.js";
 
-export async function sendMessage(req: Request, res: Response): Promise<void> {
-  res.json({ success: true, message: "Chat not implemented yet" });
-}
+export async function askQuestion(req: Request, res: Response): Promise<void> {
+  const { question } = req.body;
 
-export async function getHistory(req: Request, res: Response): Promise<void> {
-  res.json({ success: true, history: [] });
+  if (!question || typeof question !== "string" || !question.trim()) {
+    res.status(400).json({ success: false, message: "Question is required" });
+    return;
+  }
+
+  try {
+    const result = await getAnswer(question);
+    res.json({ success: true, answer: result.answer, sources: result.sources });
+  } catch (error) {
+    console.error("[CHAT] Failed:", error);
+    res.status(500).json({
+      success: false,
+      message: error instanceof Error ? error.message : "Chat failed",
+    });
+  }
 }

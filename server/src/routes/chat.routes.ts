@@ -1,9 +1,15 @@
 import { Router } from "express";
-import { sendMessage, getHistory } from "../controllers/chat.controller.js";
+import { askQuestion } from "../controllers/chat.controller.js";
 
 const router = Router();
 
-router.post("/message", sendMessage);
-router.get("/history", getHistory);
+router.get("/", (_req, res) => {
+  res.json({
+    success: true,
+    message: "Chat API is running. Use POST /api/chat to ask questions.",
+  });
+});
+
+router.post("/", askQuestion);
 
 export default router;

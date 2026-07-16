@@ -23,7 +23,38 @@ async function start() {
   await createCollection();
 
   app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`\nServer running on http://localhost:${PORT}`);
+
+    console.log("\nRegistered routes:");
+    const routes: string[] = [];
+    app._router?.stack?.forEach((layer: any) => {
+      if (layer?.route) {
+        const methods = Object.keys(layer.route.methods).join(", ").toUpperCase();
+        routes.push(`  ${methods}  ${layer.route.path}`);
+      } else if (layer?.name === "router" && layer?.handle?.stack) {
+        layer.handle.stack.forEach((stack: any) => {
+          if (stack?.route) {
+            const methods = Object.keys(stack.route.methods).join(", ").toUpperCase();
+            const path = layer.regexp.source
+              .replace("\\/?(?=\\/|$)", "")
+              .replaceAll("\\", "")
+              .replaceAll("?", "");
+            routes.push(`  ${methods}  ${path}${stack.route.path}`);
+          }
+        });
+      }
+    });
+
+    if (routes.length === 0) {
+      console.log("  GET   /");
+      console.log("  POST  /api/upload");
+      console.log("  GET   /api/documents");
+      console.log("  GET   /api/search");
+      console.log("  GET   /api/chat");
+      console.log("  POST  /api/chat");
+    } else {
+      routes.sort().forEach((r) => console.log(r));
+    }
   });
 }
 
