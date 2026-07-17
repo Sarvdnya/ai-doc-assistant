@@ -1,8 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { askQuestion } from "@/src/services/chat.service";
 import type { Source } from "@/src/services/chat.service";
+
+const TYPING_TIMEOUT_MS = Number(process.env.NEXT_PUBLIC_REQUEST_TIMEOUT ?? 120000) + 30_000;
 
 interface Message {
   id: string;
@@ -23,14 +25,29 @@ export default function ChatPanel() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const pendingRef = useRef(false);
 
   const scrollToBottom = () => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Safety net: clear typing if it stays active too long
+  useEffect(() => {
+    if (!loading) return;
+    const id = setTimeout(() => {
+      console.log("[CHAT UI] Typing false");
+      setLoading(false);
+      pendingRef.current = false;
+    }, TYPING_TIMEOUT_MS);
+    return () => clearTimeout(id);
+  }, [loading]);
+
   const handleSend = async () => {
     const question = input.trim();
-    if (!question || loading) return;
+    if (!question || loading || pendingRef.current) {
+      console.log("[CHAT UI] Blocked — question=%s loading=%s pending=%s", !!question, loading, pendingRef.current);
+      return;
+    }
 
     setInput("");
 
@@ -42,11 +59,16 @@ export default function ChatPanel() {
 
     setMessages((prev) => [...prev, userMessage]);
     setLoading(true);
+    pendingRef.current = true;
+
+    console.log("[CHAT UI] Sending request");
 
     setTimeout(scrollToBottom, 50);
 
     try {
       const data = await askQuestion(question);
+
+      console.log("[CHAT UI] Response received", data);
 
       const assistantMessage: Message = {
         id: nextId(),
@@ -55,17 +77,18 @@ export default function ChatPanel() {
         sources: data.sources,
       };
 
+      console.log("[CHAT UI] Updating messages");
       setMessages((prev) => [...prev, assistantMessage]);
-    } catch {
-      const errorMessage: Message = {
-        id: nextId(),
-        role: "assistant",
-        content: "Something went wrong.",
-      };
-
-      setMessages((prev) => [...prev, errorMessage]);
+    } catch (error) {
+      console.error("[CHAT UI] Request failed:", error);
+      setMessages((prev) => [
+        ...prev,
+        { id: nextId(), role: "assistant", content: "Something went wrong." },
+      ]);
     } finally {
+      console.log("[CHAT UI] Typing false");
       setLoading(false);
+      pendingRef.current = false;
       setTimeout(scrollToBottom, 50);
     }
   };

@@ -1,23 +1,6 @@
-import { GoogleGenAI } from "@google/genai";
 import Chunk from "../models/Chunk.model.js";
 import DocumentModel from "../models/Document.model.js";
-
-let client: GoogleGenAI | null = null;
-
-function getClient(): GoogleGenAI {
-  if (!client) {
-    const apiKey = process.env.GEMINI_API_KEY;
-
-    if (!apiKey) {
-      throw new Error(
-        "GEMINI_API_KEY is not set. Please add it to your .env file."
-      );
-    }
-
-    client = new GoogleGenAI({ apiKey });
-  }
-  return client;
-}
+import { generateText } from "./llm.service.js";
 
 function buildPrompt(text: string): string {
   return `You are an educational video creator.
@@ -101,89 +84,19 @@ export async function generateOverview(
 
   const prompt = buildPrompt(mergedText);
 
-  console.log("[OVERVIEW] Sending to Gemini");
+  const text = await generateText(prompt);
 
-  interface RetryInfo {
-    retryDelay?: string;
+  console.log(`[OVERVIEW] Received ${text.length} chars from LLM`);
+
+  const jsonStart = text.indexOf("{");
+  const jsonEnd = text.lastIndexOf("}");
+
+  if (jsonStart === -1 || jsonEnd === -1) {
+    throw new Error("LLM did not return valid JSON");
   }
 
-  function extractRetryDelay(err: unknown): number | null {
-    try {
-      const msg = err instanceof Error ? err.message : String(err);
-      const parsed = JSON.parse(msg);
-      const details = parsed?.error?.details as RetryInfo[] | undefined;
-      if (details) {
-        for (const d of details) {
-          if (d.retryDelay) {
-            const match = d.retryDelay.match(/(\d+(?:\.\d+)?)s/);
-            if (match) return parseFloat(match[1]);
-          }
-        }
-      }
-    } catch {
-      /* ignore parse errors */
-    }
-    return null;
-  }
+  const overview = JSON.parse(text.slice(jsonStart, jsonEnd + 1));
+  console.log(`[OVERVIEW] Generated "${overview.title}" with ${overview.scenes?.length ?? 0} scenes`);
 
-  function isQuotaError(err: unknown): boolean {
-    try {
-      const msg = err instanceof Error ? err.message : String(err);
-      return msg.includes("429") || msg.includes("RESOURCE_EXHAUSTED") || msg.includes("quota");
-    } catch {
-      return false;
-    }
-  }
-
-  const MAX_RETRIES = 3;
-  let lastError: unknown;
-
-  for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
-    try {
-      const response = await getClient().models.generateContent({
-        model: "models/gemini-3.5-flash",
-        contents: prompt,
-        config: {
-          maxOutputTokens: 4096,
-        },
-      });
-
-      const text = response.text || "";
-      console.log(`[OVERVIEW] Received ${text.length} chars from Gemini`);
-
-      const jsonStart = text.indexOf("{");
-      const jsonEnd = text.lastIndexOf("}");
-
-      if (jsonStart === -1 || jsonEnd === -1) {
-        throw new Error("Gemini did not return valid JSON");
-      }
-
-      const overview = JSON.parse(text.slice(jsonStart, jsonEnd + 1));
-      console.log(`[OVERVIEW] Generated "${overview.title}" with ${overview.scenes?.length ?? 0} scenes`);
-
-      return overview;
-    } catch (error) {
-      lastError = error;
-
-      if (isQuotaError(error)) {
-        const delay = extractRetryDelay(error) ?? 30;
-        const isLast = attempt === MAX_RETRIES - 1;
-        console.log(
-          `[OVERVIEW] Quota exceeded (attempt ${attempt + 1}/${MAX_RETRIES}), ` +
-          `waiting ${delay}s before ${isLast ? "giving up" : "retrying"}...`
-        );
-        if (isLast) break;
-        await new Promise((r) => setTimeout(r, delay * 1000));
-      } else {
-        break;
-      }
-    }
-  }
-
-  const msg = lastError instanceof Error ? lastError.message : String(lastError);
-  throw new Error(
-    `Failed to generate overview: ${msg}` +
-    `\n\nThe Gemini API quota is exhausted for gemini-3.5-flash (free tier: 20 requests/day).` +
-    `\nTry again tomorrow or set up billing for higher quotas at https://ai.google.dev/pricing`
-  );
+  return overview;
 }

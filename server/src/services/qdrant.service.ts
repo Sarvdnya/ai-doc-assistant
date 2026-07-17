@@ -3,7 +3,7 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const QDRANT_URL = process.env.QDRANT_URL || "http://localhost:6333";
 const QDRANT_API_KEY = process.env.QDRANT_API_KEY || "";
 const COLLECTION_NAME = process.env.QDRANT_COLLECTION || "documents";
-const VECTOR_SIZE = 3072;
+const VECTOR_SIZE = 768;
 
 let client: QdrantClient | null = null;
 
@@ -29,8 +29,22 @@ export async function createCollection(): Promise<void> {
     );
 
     if (exists) {
-      console.log("[QDRANT] Collection already exists");
-      return;
+      // Check current vector dimension
+      try {
+        const info = await qdrant.getCollection(COLLECTION_NAME);
+        const currentSize = info.config?.params?.vectors?.size;
+        if (currentSize && currentSize !== VECTOR_SIZE) {
+          console.log(`[QDRANT] Collection exists with dim ${currentSize}, recreating with dim ${VECTOR_SIZE}`);
+          await qdrant.deleteCollection(COLLECTION_NAME);
+        } else {
+          console.log("[QDRANT] Collection already exists");
+          return;
+        }
+      } catch {
+        // If we can't get collection info, just skip recreation
+        console.log("[QDRANT] Collection already exists");
+        return;
+      }
     }
 
     await qdrant.createCollection(COLLECTION_NAME, {

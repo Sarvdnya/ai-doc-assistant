@@ -89,13 +89,31 @@ export async function generateSceneImage(scene: SceneInput): Promise<SceneImageR
   }
 }
 
-export async function generateAllSceneImages(documentId: string): Promise<{
+export async function generateAllSceneImages(documentIdOrProjectId: string): Promise<{
   success: boolean;
   generatedImages: SceneImageResult[];
 }> {
-  const metadataPath = path.join(METADATA_DIR, "project.json");
+  // Try to find the project metadata file. Priority:
+  // 1. {projectId}.json (where projectId is the passed value)
+  // 2. {documentId}-*.json (latest project for this document)
+  // 3. project.json (legacy fallback)
+  let metadataPath = path.join(METADATA_DIR, `${documentIdOrProjectId}.json`);
+
   if (!fsSync.existsSync(metadataPath)) {
-    throw new Error("No project found. Run POST /api/video/generate first.");
+    // Try to find latest project for this documentId
+    const allFiles = fsSync.readdirSync(METADATA_DIR)
+      .filter(f => f.endsWith('.json') && f !== 'project.json')
+      .sort()
+      .reverse();
+    const match = allFiles.find(f => f.startsWith(`${documentIdOrProjectId}-`));
+    if (match) {
+      metadataPath = path.join(METADATA_DIR, match);
+    } else {
+      metadataPath = path.join(METADATA_DIR, "project.json");
+      if (!fsSync.existsSync(metadataPath)) {
+        throw new Error("No project found. Run POST /api/video/generate first.");
+      }
+    }
   }
 
   await fs.mkdir(IMAGES_DIR, { recursive: true });

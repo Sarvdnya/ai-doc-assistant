@@ -1,4 +1,4 @@
-import { embedText } from "../ai/embedding.service.js";
+import { generateEmbedding } from "./embedding.service.js";
 import { search as qdrantSearch } from "./qdrant.service.js";
 
 export async function searchDocuments(
@@ -19,7 +19,7 @@ export async function searchDocuments(
   }
 
   console.log("[SEARCH] Creating query embedding");
-  const queryVector = await embedText(query);
+  const queryVector = await generateEmbedding(query);
 
   console.log("[SEARCH] Searching Qdrant");
   const results = await qdrantSearch(queryVector, limit);

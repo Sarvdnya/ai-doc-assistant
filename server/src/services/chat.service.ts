@@ -1,22 +1,5 @@
-import { GoogleGenAI } from "@google/genai";
 import { searchDocuments } from "./search.service.js";
-
-let client: GoogleGenAI | null = null;
-
-function getClient(): GoogleGenAI {
-  if (!client) {
-    const apiKey = process.env.GEMINI_API_KEY;
-
-    if (!apiKey) {
-      throw new Error(
-        "GEMINI_API_KEY is not set. Please add it to your .env file."
-      );
-    }
-
-    client = new GoogleGenAI({ apiKey });
-  }
-  return client;
-}
+import { generateText } from "./llm.service.js";
 
 export interface Source {
   filename: string;
@@ -59,15 +42,15 @@ export async function askQuestion(question: string): Promise<ChatResult> {
     chunkIndex: r.chunkIndex,
   }));
 
-  const instructions = `You are an AI Document Assistant.
+  const system = `You are an AI Document Assistant.
 
 Answer ONLY using the provided context.
 
 If the answer is not found in the context, reply:
 
-"I couldn't find this information in the uploaded documents."
+"I couldn't find this information in the uploaded documents."`;
 
-Context:
+  const prompt = `Context:
 
 ${context}
 
@@ -75,22 +58,15 @@ Question:
 
 ${question}`;
 
-  console.log("[CHAT] Sending context to Gemini");
+  console.log("[CHAT] Sending to LLM");
 
   try {
-    const response = await getClient().models.generateContent({
-      model: "models/gemini-3.5-flash",
-      contents: question,
-      config: {
-        systemInstruction: instructions,
-        maxOutputTokens: 1024,
-      },
-    });
+    const answer = await generateText(prompt, system);
 
     console.log("[CHAT] Answer generated");
 
     return {
-      answer: response.text || "I couldn't find this information in the uploaded documents.",
+      answer: answer || "I couldn't find this information in the uploaded documents.",
       sources,
     };
   } catch (error) {

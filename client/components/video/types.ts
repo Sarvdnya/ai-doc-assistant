@@ -9,6 +9,7 @@ export interface SceneData {
 }
 
 export interface VideoProject {
+  projectId?: string;
   title: string;
   duration: string;
   sceneCount: number;
@@ -17,4 +18,15 @@ export interface VideoProject {
   scriptPath: string;
   imagePlaceholders: string[];
   scenes: SceneData[];
+}
+
+export interface ProjectSummary {
+  id: string;
+  title: string;
+  createdAt: string;
+  sceneCount: number;
+  duration: string;
+  status: "generated" | "images_generated";
+  thumbnail: string | null;
+  metadataPath: string;
 }

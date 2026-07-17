@@ -9,6 +9,11 @@ const SCRIPTS_DIR = path.join(GENERATED_DIR, "scripts");
 const METADATA_DIR = path.join(GENERATED_DIR, "metadata");
 const OUTPUT_DIR = path.join(GENERATED_DIR, "output");
 
+function generateProjectId(documentId: string): string {
+  const ts = Date.now();
+  return `${documentId}-${ts}`;
+}
+
 function pad(n: number): string {
   return String(n).padStart(2, "0");
 }
@@ -29,6 +34,7 @@ export interface SceneData {
 }
 
 export interface VideoProject {
+  projectId: string;
   title: string;
   sceneCount: number;
   projectPath: string;
@@ -41,6 +47,8 @@ export interface VideoProject {
 export async function runVideoPipeline(documentId: string): Promise<VideoProject> {
   console.log("[VIDEO] Incoming documentId:", documentId);
   console.log("[VIDEO] Looking up document...");
+
+  const projectId = generateProjectId(documentId);
 
   await fs.mkdir(IMAGES_DIR, { recursive: true });
   await fs.mkdir(SCRIPTS_DIR, { recursive: true });
@@ -100,18 +108,22 @@ export async function runVideoPipeline(documentId: string): Promise<VideoProject
 
   console.log("[VIDEO] Saving project");
   const project = {
+    projectId,
+    documentId,
     title: overview.title,
     duration: overview.duration,
     sceneCount: scenes.length,
-    scenes: projectScenes,
     generatedAt: new Date().toISOString(),
+    scenes: projectScenes,
   };
-  const metadataPath = path.join(METADATA_DIR, "project.json");
+  const metadataFilename = `${projectId}.json`;
+  const metadataPath = path.join(METADATA_DIR, metadataFilename);
   await fs.writeFile(metadataPath, JSON.stringify(project, null, 2));
 
   console.log("[VIDEO] Done");
 
   return {
+    projectId,
     title: overview.title,
     sceneCount: scenes.length,
     projectPath: GENERATED_DIR,

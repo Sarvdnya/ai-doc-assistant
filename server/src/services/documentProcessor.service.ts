@@ -3,7 +3,7 @@ import DocumentModel from "../models/Document.model.js";
 import ChunkModel from "../models/Chunk.model.js";
 import { parsePdfPages } from "../parsers/pdfParser.js";
 import { chunkText } from "./chunk.service.js";
-import { embedText } from "../ai/embedding.service.js";
+import { generateEmbedding } from "./embedding.service.js";
 import { upsertChunks, deleteDocumentVectors } from "./qdrant.service.js";
 import type { ChunkData } from "./qdrant.service.js";
 
@@ -73,7 +73,7 @@ export async function processDocument(
 
     for (let i = 0; i < chunkTexts.length; i++) {
       console.log(`[EMBEDDING] Creating embedding ${i + 1}/${chunkTexts.length}`);
-      const vector = await embedText(chunkTexts[i]);
+      const vector = await generateEmbedding(chunkTexts[i]);
       vectors.push(vector);
     }
 

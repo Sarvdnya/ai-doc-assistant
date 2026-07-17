@@ -5,15 +5,17 @@ export async function generateImages(
   req: Request,
   res: Response
 ): Promise<void> {
-  const { documentId } = req.body;
+  const { documentId, projectId } = req.body;
 
-  if (!documentId || typeof documentId !== "string") {
-    res.status(400).json({ success: false, message: "documentId is required" });
+  const lookupId = projectId ?? documentId;
+
+  if (!lookupId || typeof lookupId !== "string") {
+    res.status(400).json({ success: false, message: "projectId or documentId is required" });
     return;
   }
 
   try {
-    const result = await generateAllSceneImages(documentId);
+    const result = await generateAllSceneImages(lookupId);
 
     res.json(result);
   } catch (error) {
