@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { DocumentFile } from "@/components/document/types";
+import { fetchWithDiagnostics } from "./fetch.service";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000";
 const DOCUMENTS_URL = `${API_BASE_URL}/api/documents`;
@@ -46,7 +47,12 @@ function toDocumentFile(document: ApiDocument): DocumentFile {
 }
 
 export async function getDocuments(): Promise<DocumentFile[]> {
-  const response = await fetch(DOCUMENTS_URL);
+  let response: Response;
+  try {
+    response = await fetchWithDiagnostics(DOCUMENTS_URL);
+  } catch (error) {
+    throw error;
+  }
 
   if (!response.ok) {
     throw new Error(await getErrorMessage(response));

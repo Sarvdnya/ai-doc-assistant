@@ -8,21 +8,20 @@ dotenv.config({ path: path.resolve(__dirname, "..", ".env") });
 import app from "./app.js";
 import { connectDB } from "./config/db.js";
 import { createCollection } from "./services/qdrant.service.js";
+import { fetchWithDiagnostics, throwForFailedResponse } from "./services/fetch.service.js";
+import { getLlmModel } from "./services/llm.service.js";
 
 const PORT = Number(process.env.PORT ?? 5000);
 const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL ?? "qwen3:8b";
 const OLLAMA_EMBEDDING_MODEL = process.env.OLLAMA_EMBEDDING_MODEL ?? "nomic-embed-text";
 const QDRANT_URL = process.env.QDRANT_URL ?? "http://localhost:6333";
 
 async function checkOllama(): Promise<void> {
-  const response = await fetch(`${OLLAMA_URL}/api/tags`, {
+  const url = `${OLLAMA_URL}/api/tags`;
+  const response = await fetchWithDiagnostics("server.ts", url, {
     signal: AbortSignal.timeout(10_000),
   });
-
-  if (!response.ok) {
-    throw new Error(`Ollama returned ${response.status}`);
-  }
+  await throwForFailedResponse("server.ts", url, response);
 
   const data = (await response.json()) as { models?: Array<{ name: string }> };
   const models = data.models ?? [];
@@ -31,18 +30,6 @@ async function checkOllama(): Promise<void> {
   console.log(`  Available models: ${modelNames.join(", ") || "(none)"}`);
 
   console.log("✓ Ollama Connected");
-
-  const llmMatch = modelNames.find((name) => name.startsWith(OLLAMA_MODEL) || name.includes(OLLAMA_MODEL.replace(/:.*/, "")));
-  if (!llmMatch) {
-    console.error(`✗ LLM model matching "${OLLAMA_MODEL}" not found. Available: ${modelNames.join(", ") || "(none)"}`);
-    process.exit(1);
-  }
-  if (llmMatch !== OLLAMA_MODEL) {
-    console.log(`✓ LLM Ready — using "${llmMatch}" (set OLLAMA_MODEL=${llmMatch} in .env to silence)`);
-    process.env.OLLAMA_MODEL = llmMatch;
-  } else {
-    console.log(`✓ LLM Ready (${OLLAMA_MODEL})`);
-  }
 
   const embMatch = modelNames.find((name) => name.startsWith(OLLAMA_EMBEDDING_MODEL) || name.includes(OLLAMA_EMBEDDING_MODEL.replace(/:.*/, "")));
   if (!embMatch) {
@@ -58,18 +45,23 @@ async function checkOllama(): Promise<void> {
 }
 
 async function checkQdrant(): Promise<void> {
-  const response = await fetch(`${QDRANT_URL}/`, {
+  const url = `${QDRANT_URL}/`;
+  const response = await fetchWithDiagnostics("server.ts", url, {
     signal: AbortSignal.timeout(10_000),
   });
-
-  if (!response.ok) {
-    throw new Error(`Qdrant returned ${response.status}`);
-  }
+  await throwForFailedResponse("server.ts", url, response);
 
   console.log("✓ Qdrant Connected");
 }
 
 async function start() {
+  if (!process.env.GEMINI_API_KEY) {
+    console.error("✗ Gemini connection failed: GEMINI_API_KEY is not configured");
+    process.exit(1);
+  }
+  console.log("✓ Gemini Connected");
+  console.log(`✓ Model: ${getLlmModel()}`);
+
   try {
     await checkOllama();
   } catch (error) {

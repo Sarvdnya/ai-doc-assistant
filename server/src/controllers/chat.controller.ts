@@ -1,7 +1,10 @@
 import type { Request, Response } from "express";
 import { askQuestion as getAnswer } from "../services/chat.service.js";
+import { enterTrace, traceAwait } from "../utils/trace.js";
 
 export async function askQuestion(req: Request, res: Response): Promise<void> {
+  const exit = enterTrace("chat.controller.askQuestion");
+  try {
   const { question } = req.body;
 
   if (!question || typeof question !== "string" || !question.trim()) {
@@ -9,8 +12,7 @@ export async function askQuestion(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  try {
-    const result = await getAnswer(question);
+    const result = await traceAwait("chat.controller.askQuestion", "await getAnswer(question)", "chat.service.askQuestion", getAnswer(question));
     res.json({ success: true, answer: result.answer, sources: result.sources });
   } catch (error) {
     console.error("[CHAT] Failed:", error);
@@ -18,5 +20,7 @@ export async function askQuestion(req: Request, res: Response): Promise<void> {
       success: false,
       message: error instanceof Error ? error.message : "Chat failed",
     });
+  } finally {
+    exit();
   }
 }

@@ -1,5 +1,6 @@
 import { searchDocuments } from "./search.service.js";
 import { generateText } from "./llm.service.js";
+import { enterTrace, traceAwait } from "../utils/trace.js";
 
 export interface Source {
   filename: string;
@@ -13,6 +14,8 @@ export interface ChatResult {
 }
 
 export async function askQuestion(question: string): Promise<ChatResult> {
+  const exit = enterTrace("chat.service.askQuestion");
+  try {
   console.log("[CHAT] Question received");
 
   if (!question || question.trim().length === 0) {
@@ -20,7 +23,7 @@ export async function askQuestion(question: string): Promise<ChatResult> {
   }
 
   console.log("[CHAT] Searching Qdrant");
-  const results = await searchDocuments(question, 5);
+  const results = await traceAwait("chat.service.askQuestion", "await searchDocuments(question, 5)", "search.service.searchDocuments", searchDocuments(question, 5));
 
   console.log(`[CHAT] Retrieved ${results.length} chunks`);
 
@@ -61,7 +64,7 @@ ${question}`;
   console.log("[CHAT] Sending to LLM");
 
   try {
-    const answer = await generateText(prompt, system);
+    const answer = await traceAwait("chat.service.askQuestion", "await generateText(prompt, system)", "llm.service.generateText", generateText(prompt, system));
 
     console.log("[CHAT] Answer generated");
 
@@ -73,5 +76,8 @@ ${question}`;
     throw new Error(
       `Failed to generate AI response: ${error instanceof Error ? error.message : String(error)}`
     );
+  }
+  } finally {
+    exit();
   }
 }

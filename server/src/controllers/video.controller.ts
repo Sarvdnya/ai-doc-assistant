@@ -21,13 +21,14 @@ export async function generateVideo(
   }
 
   try {
+    console.log("[VIDEO] Starting pipeline");
     const project = await runVideoPipeline(documentId);
-
+    console.log("[VIDEO] Pipeline request completed");
     res.json({ success: true, project });
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
 
-    console.error("[VIDEO] Pipeline failed:", msg);
+    console.error("[VIDEO] Pipeline failed\n" + msg);
 
     if (msg.includes("not found")) {
       res.status(404).json({

@@ -1,81 +1,72 @@
-const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL ?? "qwen3:8b";
+import { GoogleGenAI } from "@google/genai";
+import { enterTrace, traceAwait } from "../utils/trace.js";
 
-console.log(`[LLM] URL: ${OLLAMA_URL}`);
-console.log(`[LLM] Model: ${OLLAMA_MODEL}`);
+const DEFAULT_GEMINI_MODEL = "gemini-flash-latest";
+
+export function getLlmModel(): string {
+  return process.env.GEMINI_MODEL ?? DEFAULT_GEMINI_MODEL;
+}
 
 export interface ChatMessage {
   role: "system" | "user" | "assistant";
   content: string;
 }
 
-export async function generateText(
-  prompt: string,
-  system?: string
-): Promise<string> {
-  console.log(`[LLM] Sending request to Ollama (${OLLAMA_MODEL})`);
+let geminiClient: GoogleGenAI | undefined;
 
-  const body: Record<string, unknown> = {
-    model: OLLAMA_MODEL,
-    prompt,
-    stream: false,
-  };
-
-  if (system) {
-    body.system = system;
+function getGeminiClient(): GoogleGenAI {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error("GEMINI_API_KEY is not configured");
   }
 
-  const response = await fetch(`${OLLAMA_URL}/api/generate`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-
-  if (!response.ok) {
-    const text = await response.text().catch(() => "");
-    throw new Error(
-      `Ollama generate failed (${response.status}): ${text.slice(0, 300)}`
-    );
-  }
-
-  const data = (await response.json()) as { response: string };
-
-  if (typeof data.response !== "string") {
-    throw new Error("Ollama generate response missing 'response' field");
-  }
-
-  console.log(`[LLM] Received ${data.response.length} chars`);
-  return data.response;
+  geminiClient ??= new GoogleGenAI({ apiKey });
+  return geminiClient;
 }
 
-export async function chat(
-  messages: ChatMessage[]
-): Promise<string> {
-  console.log(`[LLM] Sending chat to Ollama (${OLLAMA_MODEL})`);
+function errorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
 
-  const response = await fetch(`${OLLAMA_URL}/api/chat`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: OLLAMA_MODEL,
-      messages,
-      stream: false,
-    }),
-  });
+export async function generateText(prompt: string, system?: string): Promise<string> {
+  const exit = enterTrace("llm.service.generateText");
+  try {
+    console.log("[LLM] Using Gemini");
+    console.log("[LLM] Sending request");
 
-  if (!response.ok) {
-    const text = await response.text().catch(() => "");
-    throw new Error(
-      `Ollama chat failed (${response.status}): ${text.slice(0, 300)}`
+    const response = await traceAwait(
+      "llm.service.generateText",
+      "await gemini.models.generateContent(...) ",
+      "Gemini request",
+      getGeminiClient().models.generateContent({
+        model: getLlmModel(),
+        contents: prompt,
+        ...(system ? { config: { systemInstruction: system } } : {}),
+      })
     );
+
+    console.log("[LLM] Response received");
+    const text = response.text?.trim();
+    if (!text) {
+      throw new Error("Gemini returned an empty response");
+    }
+    return text;
+  } catch (error) {
+    throw new Error(`Failed to generate AI response: ${errorMessage(error)}`);
+  } finally {
+    exit();
   }
+}
 
-  const data = (await response.json()) as { message: { content: string } };
+export async function chat(messages: ChatMessage[]): Promise<string> {
+  const system = messages
+    .filter((message) => message.role === "system")
+    .map((message) => message.content)
+    .join("\n\n");
+  const prompt = messages
+    .filter((message) => message.role !== "system")
+    .map((message) => `${message.role === "assistant" ? "Assistant" : "User"}: ${message.content}`)
+    .join("\n\n");
 
-  if (!data.message || typeof data.message.content !== "string") {
-    throw new Error("Ollama chat response missing message.content");
-  }
-
-  console.log(`[LLM] Received ${data.message.content.length} chars`);
-  return data.message.content;
+  return generateText(prompt, system || undefined);
 }

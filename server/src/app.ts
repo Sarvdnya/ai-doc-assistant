@@ -8,7 +8,6 @@ import searchRoutes from "./routes/search.routes.js";
 import overviewRoutes from "./routes/overview.routes.js";
 import videoRoutes from "./routes/video.routes.js";
 import videoRenderRoutes from "./routes/video-render.routes.js";
-import projectsRoutes from "./routes/projects.routes.js";
 
 const app = express();
 
@@ -27,7 +26,6 @@ app.use("/api/search", searchRoutes);
 app.use("/api/overview", overviewRoutes);
 app.use("/api/video", videoRoutes);
 app.use("/api/video", videoRenderRoutes);
-app.use("/api", projectsRoutes);
 
 const generatedDir = path.resolve(import.meta.dirname, "..", "generated");
 app.use("/generated", express.static(generatedDir));

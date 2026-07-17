@@ -26,6 +26,7 @@ export function generateImagePrompts(overview: {
     visual: string;
   }>;
 }): Array<{ scene: number; prompt: string }> {
+  console.log("[IMAGEPROMPT] Generating image prompts");
   const imagePrompts = overview.scenes.map((scene) => ({
     scene: scene.scene,
     prompt: buildPrompt(scene),

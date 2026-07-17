@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "typescript": "5.9"
+  },
+  "dependencies": {
+    "@google/genai": "^2.12.0"
   }
 }

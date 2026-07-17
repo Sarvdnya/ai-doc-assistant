@@ -3,6 +3,7 @@ export interface Source {
   pageNumber: number;
   chunkIndex: number;
 }
+import { fetchWithDiagnostics } from "./fetch.service";
 
 export interface ChatResponse {
   success: boolean;
@@ -22,12 +23,18 @@ export async function askQuestion(question: string): Promise<ChatResponse> {
 
   const url = `${API_BASE_URL}/api/chat`;
 
-  const response = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ question }),
-    signal: AbortSignal.timeout(REQUEST_TIMEOUT),
-  });
+  let response: Response;
+  try {
+    response = await fetchWithDiagnostics(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question }),
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT),
+    });
+  } catch (error) {
+    console.timeEnd("chat-request");
+    throw error;
+  }
 
   console.timeEnd("chat-request");
   console.log("[CHAT UI] Response received", response.status, response.ok);

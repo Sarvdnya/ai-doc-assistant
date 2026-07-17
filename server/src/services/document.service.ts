@@ -1,4 +1,5 @@
 import { unlink } from "fs/promises";
+import { fetchWithDiagnostics, throwForFailedResponse } from "./fetch.service.js";
 
 export interface StoredDocument {
   id: string;
@@ -40,11 +41,8 @@ export async function deleteDocumentById(id: string): Promise<boolean> {
 const API_URL = "http://localhost:5000/api/documents";
 
 export async function getDocuments() {
-  const response = await fetch(API_URL);
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch documents");
-  }
+  const response = await fetchWithDiagnostics("document.service.ts", API_URL);
+  await throwForFailedResponse("document.service.ts", API_URL, response);
 
   return response.json();
 }
