@@ -1,6 +1,7 @@
 "use client";
 
 import DirectorPanel from "./DirectorPanel";
+import { MessageSquare } from "lucide-react";
 
 interface ChatPanelProps {
   documentId?: string | null;
@@ -8,12 +9,26 @@ interface ChatPanelProps {
   onVideoGenerated?: () => void;
 }
 
-/** The single UI panel for configuring and running video production actions. */
-export default function ChatPanel({ documentId, onGenerationStateChange, onVideoGenerated }: ChatPanelProps) {
+export default function ChatPanel({
+  documentId,
+  onGenerationStateChange,
+  onVideoGenerated,
+}: ChatPanelProps) {
   return (
-    <div className="bg-white rounded-xl shadow p-6 h-full flex flex-col text-black">
-      <h2 className="text-sm font-semibold text-gray-700 mb-4">✨ AI Video Instructions</h2>
-      <div className="flex-1 min-h-0">
+    <div
+      className="h-full backdrop-blur-xl border border-[var(--border-color)] rounded-[18px] flex flex-col overflow-hidden"
+      style={{ backgroundColor: "var(--glass-bg)" }}
+    >
+      <div className="flex items-center gap-2 px-5 py-4 border-b border-[var(--border-color)]">
+        <MessageSquare
+          size={16}
+          className="text-[var(--color-primary)]"
+        />
+        <h2 className="text-sm font-semibold text-[var(--text-primary)]">
+          AI Video Instructions
+        </h2>
+      </div>
+      <div className="flex-1 min-h-0 p-4">
         <DirectorPanel
           documentId={documentId}
           onGenerationStateChange={onGenerationStateChange}

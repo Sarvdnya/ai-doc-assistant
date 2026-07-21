@@ -12,37 +12,37 @@ import { fetchWithDiagnostics, throwForFailedResponse } from "./services/fetch.s
 import { getLlmModel } from "./services/llm.service.js";
 
 const PORT = Number(process.env.PORT ?? 5000);
-const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
-const OLLAMA_EMBEDDING_MODEL = process.env.OLLAMA_EMBEDDING_MODEL ?? "nomic-embed-text";
+// const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
+// const OLLAMA_EMBEDDING_MODEL = process.env.OLLAMA_EMBEDDING_MODEL ?? "nomic-embed-text";
 const QDRANT_URL = process.env.QDRANT_URL ?? "http://localhost:6333";
 
-async function checkOllama(): Promise<void> {
-  const url = `${OLLAMA_URL}/api/tags`;
-  const response = await fetchWithDiagnostics("server.ts", url, {
-    signal: AbortSignal.timeout(10_000),
-  });
-  await throwForFailedResponse("server.ts", url, response);
+// async function checkOllama(): Promise<void> {
+//   const url = `${OLLAMA_URL}/api/tags`;
+//   const response = await fetchWithDiagnostics("server.ts", url, {
+//     signal: AbortSignal.timeout(10_000),
+//   });
+//   await throwForFailedResponse("server.ts", url, response);
 
-  const data = (await response.json()) as { models?: Array<{ name: string }> };
-  const models = data.models ?? [];
+//   const data = (await response.json()) as { models?: Array<{ name: string }> };
+//   const models = data.models ?? [];
 
-  const modelNames = models.map((m) => m.name);
-  console.log(`  Available models: ${modelNames.join(", ") || "(none)"}`);
+//   const modelNames = models.map((m) => m.name);
+//   console.log(`  Available models: ${modelNames.join(", ") || "(none)"}`);
 
-  console.log("✓ Ollama Connected");
+//   console.log("✓ Ollama Connected");
 
-  const embMatch = modelNames.find((name) => name.startsWith(OLLAMA_EMBEDDING_MODEL) || name.includes(OLLAMA_EMBEDDING_MODEL.replace(/:.*/, "")));
-  if (!embMatch) {
-    console.error(`✗ Embedding model matching "${OLLAMA_EMBEDDING_MODEL}" not found. Available: ${modelNames.join(", ") || "(none)"}`);
-    process.exit(1);
-  }
-  if (embMatch !== OLLAMA_EMBEDDING_MODEL) {
-    console.log(`✓ Embedding Model Ready — using "${embMatch}" (set OLLAMA_EMBEDDING_MODEL=${embMatch} in .env to silence)`);
-    process.env.OLLAMA_EMBEDDING_MODEL = embMatch;
-  } else {
-    console.log(`✓ Embedding Model Ready (${OLLAMA_EMBEDDING_MODEL})`);
-  }
-}
+//   const embMatch = modelNames.find((name) => name.startsWith(OLLAMA_EMBEDDING_MODEL) || name.includes(OLLAMA_EMBEDDING_MODEL.replace(/:.*/, "")));
+//   if (!embMatch) {
+//     console.error(`✗ Embedding model matching "${OLLAMA_EMBEDDING_MODEL}" not found. Available: ${modelNames.join(", ") || "(none)"}`);
+//     process.exit(1);
+//   }
+//   if (embMatch !== OLLAMA_EMBEDDING_MODEL) {
+//     console.log(`✓ Embedding Model Ready — using "${embMatch}" (set OLLAMA_EMBEDDING_MODEL=${embMatch} in .env to silence)`);
+//     process.env.OLLAMA_EMBEDDING_MODEL = embMatch;
+//   } else {
+//     console.log(`✓ Embedding Model Ready (${OLLAMA_EMBEDDING_MODEL})`);
+//   }
+// }
 
 async function checkQdrant(): Promise<void> {
   const url = `${QDRANT_URL}/`;
@@ -62,12 +62,12 @@ async function start() {
   console.log("✓ Gemini Connected");
   console.log(`✓ Model: ${getLlmModel()}`);
 
-  try {
-    await checkOllama();
-  } catch (error) {
-    console.error("✗ Ollama connection failed:", error instanceof Error ? error.message : String(error));
-    process.exit(1);
-  }
+  // try {
+  //   await checkOllama();
+  // } catch (error) {
+  //   console.error("✗ Ollama connection failed:", error instanceof Error ? error.message : String(error));
+  //   process.exit(1);
+  // }
 
   try {
     await checkQdrant();

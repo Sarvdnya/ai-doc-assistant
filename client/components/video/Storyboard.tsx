@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
+import { Clock, ChevronRight, Image, FileText, Volume2 } from "lucide-react";
 import type { VideoProject } from "./types";
 
 interface Props {
@@ -15,29 +17,24 @@ function SceneImage({ src, alt }: { src: string; alt: string }) {
 
   if (failed) {
     return (
-      <div className="w-full h-[250px] bg-gray-100 flex items-center justify-center rounded-t-xl">
+      <div
+        className="w-full h-[200px] flex items-center justify-center rounded-t-[18px]"
+        style={{ backgroundColor: "var(--bg-card)" }}
+      >
         <div className="text-center">
-          <svg
-            className="size-10 text-gray-300 mx-auto mb-2"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-          >
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-            <circle cx="8.5" cy="8.5" r="1.5" />
-            <polyline points="21 15 16 10 5 21" />
-          </svg>
-          <p className="text-sm text-gray-400 font-medium">No Image Available</p>
+          <Image size={28} className="text-[var(--text-secondary)]/50 mx-auto mb-2" />
+          <p className="text-sm text-[var(--text-secondary)]/50 font-medium">
+            No Image Available
+          </p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="w-full h-[250px] bg-gray-50 relative overflow-hidden rounded-t-xl">
+    <div className="w-full h-[200px] bg-[var(--bg-background)] relative overflow-hidden rounded-t-[18px]">
       {!loaded && (
-        <div className="absolute inset-0 animate-pulse bg-gray-200" />
+        <div className="absolute inset-0 animate-pulse" style={{ backgroundColor: "var(--bg-card)" }} />
       )}
       <img
         src={`${API_BASE_URL}/${src}`}
@@ -54,9 +51,11 @@ function SceneImage({ src, alt }: { src: string; alt: string }) {
 
 function CollapsibleSection({
   label,
+  icon: Icon,
   children,
 }: {
   label: string;
+  icon: React.ElementType;
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -66,23 +65,29 @@ function CollapsibleSection({
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1 hover:text-gray-600 transition-colors"
+        className="flex items-center gap-1.5 text-xs font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
       >
-        <svg
-          className={`size-3.5 transition-transform duration-200 ${open ? "rotate-90" : ""}`}
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-        >
-          <polyline points="9 18 15 12 9 6" />
-        </svg>
+        <ChevronRight
+          size={12}
+          className={`transition-transform duration-200 ${
+            open ? "rotate-90" : ""
+          }`}
+        />
+        <Icon size={12} />
         {label}
       </button>
       {open && (
-        <div className="text-xs text-gray-500 leading-relaxed font-mono bg-gray-50 rounded-lg p-3 border">
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          className="mt-2 text-xs text-[var(--text-secondary)] leading-relaxed font-mono rounded-xl p-3 border"
+          style={{
+            backgroundColor: "var(--bg-background)",
+            borderColor: "var(--border-light)",
+          }}
+        >
           {children}
-        </div>
+        </motion.div>
       )}
     </div>
   );
@@ -90,25 +95,48 @@ function CollapsibleSection({
 
 export default function Storyboard({ project }: Props) {
   return (
-    <div className="space-y-6">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="space-y-6"
+    >
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="space-y-1">
-          <h3 className="text-xl font-bold text-gray-900">{project.title}</h3>
-          <p className="text-sm text-gray-500">
-            {project.sceneCount} scenes &middot; {project.duration}
+          <h3 className="text-xl font-bold text-[var(--text-primary)]">
+            {project.title}
+          </h3>
+          <p className="text-sm text-[var(--text-secondary)]">
+            {project.sceneCount} scenes · {project.duration}
           </p>
         </div>
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 self-start">
-          <span className="size-1.5 rounded-full bg-green-500" />
+        <span
+          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border self-start"
+          style={{
+            backgroundColor: `rgba(var(--color-success-rgb), 0.15)`,
+            color: "var(--color-success)",
+            borderColor: `rgba(var(--color-success-rgb), 0.15)`,
+          }}
+        >
+          <span
+            className="w-1.5 h-1.5 rounded-full"
+            style={{ backgroundColor: "var(--color-success)" }}
+          />
           Project Ready
         </span>
       </div>
 
       <div className="grid gap-5 grid-cols-1 md:grid-cols-2">
-        {project.scenes.map((scene) => (
-          <div
+        {project.scenes.map((scene, index) => (
+          <motion.div
             key={scene.scene}
-            className="border rounded-xl bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.05 }}
+            className="backdrop-blur-xl border border-[var(--border-color)] rounded-[18px] overflow-hidden hover:border-[var(--hover-border)] transition-all duration-300 hover:shadow-xl"
+            style={{
+              backgroundColor: "var(--glass-bg)",
+              boxShadow: `0 4px 6px rgba(var(--color-primary-rgb), 0.03)`,
+            }}
           >
             <SceneImage
               src={scene.imagePath}
@@ -118,57 +146,55 @@ export default function Storyboard({ project }: Props) {
             <div className="p-5 space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center justify-center size-7 rounded-full bg-blue-600 text-white text-xs font-bold">
+                  <span
+                    className="inline-flex items-center justify-center w-7 h-7 rounded-full text-white text-xs font-bold"
+                    style={{
+                      background: `linear-gradient(135deg, var(--color-primary), var(--color-secondary))`,
+                    }}
+                  >
                     {scene.scene}
                   </span>
-                  <span className="text-sm font-semibold text-gray-800">
+                  <span className="text-sm font-semibold text-[var(--text-primary)]">
                     Scene {scene.scene}
                   </span>
                 </div>
-                <span className="inline-flex items-center gap-1 text-xs text-gray-400">
-                  <svg
-                    className="size-3.5"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <polyline points="12 6 12 12 16 14" />
-                  </svg>
+                <span className="inline-flex items-center gap-1 text-xs text-[var(--text-secondary)]">
+                  <Clock size={12} />
                   {scene.duration}s
                 </span>
               </div>
 
               <div>
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
+                <p className="text-xs font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-1.5 flex items-center gap-1">
+                  <Volume2 size={12} />
                   Narration
                 </p>
-                <p className="text-sm text-gray-800 leading-relaxed">
+                <p className="text-sm text-[var(--text-message)] leading-relaxed">
                   {scene.narration}
                 </p>
               </div>
 
               <div>
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">
-                  Visual Description
+                <p className="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider mb-1.5 flex items-center gap-1">
+                  <FileText size={12} />
+                  Visual
                 </p>
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
                   {scene.visual}
                 </p>
               </div>
 
-              <CollapsibleSection label="Image Prompt">
+              <CollapsibleSection label="Image Prompt" icon={Image}>
                 {scene.imagePrompt}
               </CollapsibleSection>
 
-              <div className="pt-3 border-t text-xs text-gray-400 truncate" title={scene.imagePath}>
+              <div className="pt-3 border-t border-[var(--border-light)] text-xs text-[var(--text-secondary)]/50 truncate">
                 <span className="font-mono">{scene.imagePath}</span>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -1,8 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { DEFAULT_VIDEO_SETTINGS, getDirectorVideoGenerationJob, loadVideoGenerationSettings, saveVideoGenerationSettings, sendDirectorMessage, startDirectorVideoGeneration } from "@/src/services/director.service";
+import { useRef, useState } from "react";
+import {
+  DEFAULT_VIDEO_SETTINGS,
+  getDirectorVideoGenerationJob,
+  loadVideoGenerationSettings,
+  saveVideoGenerationSettings,
+  sendDirectorMessage,
+  startDirectorVideoGeneration,
+} from "@/src/services/director.service";
 import type { VideoSettings } from "@/src/services/director.service";
+import { SendHorizonal, Sparkles, Settings2 } from "lucide-react";
 
 interface DirectorMessage {
   id: string;
@@ -22,64 +30,107 @@ interface DirectorPanelProps {
   onVideoGenerated?: () => void;
 }
 
-function SettingRow({ label, value }: { label: string; value: string | number | boolean | undefined }) {
+function SettingRow({
+  label,
+  value,
+}: {
+  label: string;
+  value: string | number | boolean | undefined;
+}) {
   if (value === undefined || value === null) return null;
-  const display = typeof value === "boolean" ? (value ? "Yes" : "No") : String(value);
+  const display =
+    typeof value === "boolean" ? (value ? "On" : "Off") : String(value);
   return (
     <div className="flex justify-between text-xs">
-      <span className="text-gray-500">{label}:</span>
-      <span className="text-gray-800 font-medium">{display}</span>
+      <span className="text-[var(--text-secondary)]">{label}:</span>
+      <span className="text-[var(--text-primary)] font-medium">{display}</span>
     </div>
   );
 }
 
-function productionAction(message: string): "full" | "images" | "narration" | "render" | null {
-  if (/\b(regenerate|rebuild)\b.*\b(narration|audio|voice)\b/i.test(message)) return "narration";
-  if (/\b(regenerate|rebuild)\b.*\b(images?|visuals?)\b/i.test(message)) return "images";
-  if (/\b(rebuild|render)\b.*\b(final|video)\b/i.test(message)) return "render";
+function productionAction(
+  message: string
+): "full" | "images" | "narration" | "render" | null {
+  if (/\b(regenerate|rebuild)\b.*\b(narration|audio|voice)\b/i.test(message))
+    return "narration";
+  if (/\b(regenerate|rebuild)\b.*\b(images?|visuals?)\b/i.test(message))
+    return "images";
+  if (/\b(rebuild|render)\b.*\b(final|video)\b/i.test(message))
+    return "render";
   if (isGenerationCommand(message)) return "full";
   return null;
 }
 
 function isGenerationCommand(message: string): boolean {
-  return /\b(generate|create|build|make|start|render|produce)\b.*\b(video|overview|presentation|animated|final)\b|\bmake this into a video\b/i.test(message);
-}
-
-function settingUpdates(previous: VideoSettings, next: VideoSettings): string[] {
-  const labels: Record<keyof VideoSettings, string> = {
-    duration: "Duration", sceneCount: "Scenes", imageStyle: "Image Style", voice: "Voice",
-    narrationStyle: "Narration", audience: "Audience", language: "Language", subtitles: "Subtitles",
-    backgroundMusic: "Background Music", transitions: "Transitions", aspectRatio: "Aspect Ratio",
-  };
-  return (Object.keys(labels) as Array<keyof VideoSettings>).flatMap((key) =>
-    next[key] !== undefined && next[key] !== previous[key]
-      ? [`✓ ${labels[key]} → ${next[key] === true ? "On" : next[key] === false ? "Off" : next[key]}`]
-      : []
+  return /\b(generate|create|build|make|start|render|produce)\b.*\b(video|overview|presentation|animated|final)\b|\bmake this into a video\b/i.test(
+    message
   );
 }
 
-export default function DirectorPanel({ documentId, onGenerationStateChange, onVideoGenerated }: DirectorPanelProps) {
+function settingUpdates(
+  previous: VideoSettings,
+  next: VideoSettings
+): string[] {
+  const labels: Record<keyof VideoSettings, string> = {
+    duration: "Duration",
+    sceneCount: "Scenes",
+    imageStyle: "Image Style",
+    voice: "Voice",
+    narrationStyle: "Narration",
+    audience: "Audience",
+    language: "Language",
+    subtitles: "Subtitles",
+    backgroundMusic: "Background Music",
+    transitions: "Transitions",
+    aspectRatio: "Aspect Ratio",
+  };
+  return (Object.keys(labels) as Array<keyof VideoSettings>).flatMap(
+    (key) =>
+      next[key] !== undefined && next[key] !== previous[key]
+        ? [
+            `**${labels[key]}** → ${
+              next[key] === true
+                ? "On"
+                : next[key] === false
+                  ? "Off"
+                  : next[key]
+            }`,
+          ]
+        : []
+  );
+}
+
+export default function DirectorPanel({
+  documentId,
+  onGenerationStateChange,
+  onVideoGenerated,
+}: DirectorPanelProps) {
   const [messages, setMessages] = useState<DirectorMessage[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  // Keep the server and first browser render identical; local storage is read after hydration.
-  const [settings, setSettings] = useState<VideoSettings>(DEFAULT_VIDEO_SETTINGS);
+  const [settings, setSettings] = useState<VideoSettings>(() =>
+    typeof window !== "undefined"
+      ? loadVideoGenerationSettings()
+      : DEFAULT_VIDEO_SETTINGS
+  );
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setSettings(loadVideoGenerationSettings());
-  }, []);
 
   const scrollToBottom = () => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const addAssistantMessage = (content: string) => {
-    setMessages((prev) => [...prev, { id: nextId(), role: "assistant", content }]);
+    setMessages((prev) => [
+      ...prev,
+      { id: nextId(), role: "assistant", content },
+    ]);
     setTimeout(scrollToBottom, 50);
   };
 
-  const runVideoGeneration = async (action: "full" | "images" | "narration" | "render" = "full") => {
+  const runVideoGeneration = async (
+    action: "full" | "images" | "narration" | "render" = "full"
+  ) => {
     if (!documentId) {
       addAssistantMessage("Please upload a PDF first.");
       return;
@@ -87,21 +138,29 @@ export default function DirectorPanel({ documentId, onGenerationStateChange, onV
     setLoading(true);
     onGenerationStateChange?.(true);
     try {
-      const jobId = await startDirectorVideoGeneration(documentId, settings, action);
+      const jobId = await startDirectorVideoGeneration(
+        documentId,
+        settings,
+        action
+      );
       let shownProgress = 0;
       while (true) {
         const job = await getDirectorVideoGenerationJob(jobId);
-        for (const progress of job.progress.slice(shownProgress)) addAssistantMessage(progress);
+        for (const progress of job.progress.slice(shownProgress))
+          addAssistantMessage(progress);
         shownProgress = job.progress.length;
         if (job.status === "completed") {
           onVideoGenerated?.();
           return;
         }
-        if (job.status === "failed") throw new Error(job.error ?? "Video generation failed.");
+        if (job.status === "failed")
+          throw new Error(job.error ?? "Video generation failed.");
         await new Promise((resolve) => window.setTimeout(resolve, 1000));
       }
     } catch (error) {
-      addAssistantMessage(error instanceof Error ? error.message : "Video generation failed.");
+      addAssistantMessage(
+        error instanceof Error ? error.message : "Video generation failed."
+      );
     } finally {
       setLoading(false);
       onGenerationStateChange?.(false);
@@ -114,7 +173,11 @@ export default function DirectorPanel({ documentId, onGenerationStateChange, onV
 
     setInput("");
 
-    const userMsg: DirectorMessage = { id: nextId(), role: "user", content: text };
+    const userMsg: DirectorMessage = {
+      id: nextId(),
+      role: "user",
+      content: text,
+    };
     setMessages((prev) => [...prev, userMsg]);
     setTimeout(scrollToBottom, 50);
 
@@ -122,7 +185,10 @@ export default function DirectorPanel({ documentId, onGenerationStateChange, onV
 
     try {
       const data = await sendDirectorMessage(text);
-      const updatedSettings = saveVideoGenerationSettings({ ...settings, ...data.settings });
+      const updatedSettings = saveVideoGenerationSettings({
+        ...settings,
+        ...data.settings,
+      });
       settingUpdates(settings, updatedSettings).forEach(addAssistantMessage);
       setSettings(updatedSettings);
       const action = productionAction(text);
@@ -131,9 +197,11 @@ export default function DirectorPanel({ documentId, onGenerationStateChange, onV
         await runVideoGeneration(action);
         return;
       }
-      if (!Object.keys(data.settings).length) addAssistantMessage("✓ Instruction recorded");
+      if (!Object.keys(data.settings).length)
+        addAssistantMessage("✓ Instruction recorded");
     } catch (error) {
-      const errMsg = error instanceof Error ? error.message : "Something went wrong.";
+      const errMsg =
+        error instanceof Error ? error.message : "Something went wrong.";
       setMessages((prev) => [
         ...prev,
         { id: nextId(), role: "assistant", content: errMsg },
@@ -150,37 +218,100 @@ export default function DirectorPanel({ documentId, onGenerationStateChange, onV
 
   return (
     <div className="h-full flex flex-col">
-      <div className="bg-indigo-50 border border-indigo-100 rounded-lg p-3 mb-3 grid grid-cols-2 gap-x-4 gap-y-1">
-          <SettingRow label="Duration" value={settings.duration} />
-          <SettingRow label="Scenes" value={settings.sceneCount} />
-          <SettingRow label="Image Style" value={settings.imageStyle} />
-          <SettingRow label="Voice" value={settings.voice} />
-          <SettingRow label="Language" value={settings.language} />
-          <SettingRow label="Audience" value={settings.audience} />
-          <SettingRow label="Subtitles" value={settings.subtitles} />
-          <SettingRow label="Music" value={settings.backgroundMusic !== undefined ? !settings.backgroundMusic : undefined} />
-          <SettingRow label="Transitions" value={settings.transitions} />
-          <SettingRow label="Aspect Ratio" value={settings.aspectRatio} />
+      {/* Settings Summary */}
+      <div
+        className="rounded-xl p-3 mb-3 border"
+        style={{
+          backgroundColor: `color-mix(in srgb, var(--bg-card) 100%, transparent)`,
+          borderColor: "var(--border-light)",
+        }}
+      >
+        <button
+          onClick={() => setSettingsOpen(!settingsOpen)}
+          className="flex items-center justify-between w-full"
+        >
+          <span className="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider flex items-center gap-1.5">
+            <Settings2 size={12} />
+            Settings
+          </span>
+          <span
+            className={`text-[var(--text-secondary)] text-xs transition-transform ${
+              settingsOpen ? "rotate-180" : ""
+            }`}
+          >
+            ▼
+          </span>
+        </button>
+        {settingsOpen && (
+          <div className="mt-2 pt-2 border-t border-[var(--border-light)] grid grid-cols-2 gap-x-4 gap-y-1.5">
+            <SettingRow label="Duration" value={settings.duration} />
+            <SettingRow label="Scenes" value={settings.sceneCount} />
+            <SettingRow label="Image Style" value={settings.imageStyle} />
+            <SettingRow label="Voice" value={settings.voice} />
+            <SettingRow label="Language" value={settings.language} />
+            <SettingRow label="Audience" value={settings.audience} />
+            <SettingRow label="Subtitles" value={settings.subtitles} />
+            <SettingRow
+              label="Music"
+              value={
+                settings.backgroundMusic !== undefined
+                  ? !settings.backgroundMusic
+                  : undefined
+              }
+            />
+            <SettingRow label="Transitions" value={settings.transitions} />
+            <SettingRow label="Aspect Ratio" value={settings.aspectRatio} />
+          </div>
+        )}
       </div>
 
-      <div className="flex-1 border rounded-lg p-4 bg-gray-50 overflow-y-auto space-y-4">
+      {/* Messages */}
+      <div
+        className="flex-1 rounded-xl p-4 border overflow-y-auto space-y-3"
+        style={{
+          backgroundColor: `color-mix(in srgb, var(--bg-card) 40%, transparent)`,
+          borderColor: "var(--border-light)",
+        }}
+      >
         {messages.length === 0 && (
-          <p className="text-gray-500 text-center mt-8 text-sm">
-            Tell AI what video to create or update.
-          </p>
+          <div className="flex flex-col items-center justify-center h-full text-center space-y-2">
+            <Sparkles
+              size={24}
+              className="text-[var(--color-primary)]/50"
+            />
+            <p className="text-[var(--text-secondary)] text-sm">
+              Tell AI what video to create
+            </p>
+            <p className="text-[var(--text-secondary)]/60 text-xs">
+              Try: &ldquo;Create a 90-second educational video&rdquo;
+            </p>
+          </div>
         )}
 
         {messages.map((msg) => (
           <div key={msg.id}>
             {msg.role === "user" ? (
               <div className="flex justify-end">
-                <div className="bg-indigo-600 text-white rounded-2xl rounded-br-sm px-4 py-2.5 max-w-[85%] whitespace-pre-wrap text-sm">
+                <div
+                  className="text-white rounded-2xl rounded-br-sm px-4 py-2.5 max-w-[85%] whitespace-pre-wrap text-sm shadow-lg"
+                  style={{
+                    backgroundColor: "var(--color-primary)",
+                    boxShadow: `0 4px 14px rgba(var(--color-primary-rgb), 0.2)`,
+                  }}
+                >
                   {msg.content}
                 </div>
               </div>
             ) : (
               <div className="flex justify-start">
-                <div className="bg-white border rounded-2xl rounded-bl-sm px-4 py-2.5 max-w-[85%] whitespace-pre-wrap shadow-sm text-sm">
+                <div
+                  className="border rounded-2xl rounded-bl-sm px-4 py-2.5 max-w-[85%] whitespace-pre-wrap text-sm"
+                  style={{
+                    backgroundColor: "var(--bg-card)",
+                    borderColor: "var(--border-color)",
+                    color: "var(--text-message)",
+                  }}
+                >
                   {msg.content}
                 </div>
               </div>
@@ -190,12 +321,20 @@ export default function DirectorPanel({ documentId, onGenerationStateChange, onV
 
         {loading && (
           <div className="flex justify-start">
-            <div className="bg-white border rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm">
-              <span className="text-gray-400 text-sm">Applying instruction</span>
-              <span className="inline-flex ml-1">
-                <span className="animate-bounce mx-[1px] size-1.5 bg-gray-400 rounded-full [animation-delay:0ms]" />
-                <span className="animate-bounce mx-[1px] size-1.5 bg-gray-400 rounded-full [animation-delay:150ms]" />
-                <span className="animate-bounce mx-[1px] size-1.5 bg-gray-400 rounded-full [animation-delay:300ms]" />
+            <div
+              className="border rounded-2xl rounded-bl-sm px-4 py-3"
+              style={{
+                backgroundColor: "var(--bg-card)",
+                borderColor: "var(--border-color)",
+              }}
+            >
+              <span className="text-[var(--text-secondary)] text-sm">
+                Processing
+              </span>
+              <span className="inline-flex ml-1.5">
+                <span className="animate-bounce mx-[1px] size-1.5 bg-[var(--color-primary)] rounded-full [animation-delay:0ms]" />
+                <span className="animate-bounce mx-[1px] size-1.5 bg-[var(--color-primary)] rounded-full [animation-delay:150ms]" />
+                <span className="animate-bounce mx-[1px] size-1.5 bg-[var(--color-primary)] rounded-full [animation-delay:300ms]" />
               </span>
             </div>
           </div>
@@ -204,28 +343,34 @@ export default function DirectorPanel({ documentId, onGenerationStateChange, onV
         <div ref={bottomRef} />
       </div>
 
-      <div className="mt-4">
-        <p className="mb-2 text-xs text-gray-500">
-          Examples: Create a 90 second video · Use realistic images · Generate only 6 scenes · Use female narration · Explain for kids · Regenerate narration · Rebuild video
+      {/* Input */}
+      <div className="mt-4 space-y-2">
+        <p className="text-xs text-[var(--text-secondary)]/60 px-1">
+          Examples: Create a 90 second video · Use realistic images · Generate
+          only 6 scenes · Use female narration
         </p>
         <div className="flex gap-2">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Create a 2 minute educational video with realistic images..."
-          disabled={loading}
-          className="flex-1 border rounded-lg px-4 py-2 text-black placeholder-gray-400 disabled:opacity-50 text-sm"
-        />
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Describe your video..."
+            disabled={loading}
+            className="flex-1 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl px-4 py-2.5 text-sm text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none focus:border-[var(--color-primary)]/50 focus:ring-1 focus:ring-[var(--color-primary)]/20 disabled:opacity-50 transition-all"
+          />
 
-        <button
-          onClick={() => void handleSend()}
-          disabled={loading || !input.trim()}
-          className="bg-indigo-600 text-white px-5 rounded-lg py-2 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-        >
-          Apply
-        </button>
+          <button
+            onClick={() => void handleSend()}
+            disabled={loading || !input.trim()}
+            className="text-white px-4 rounded-xl py-2.5 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all shadow-lg flex items-center"
+            style={{
+              backgroundColor: "var(--color-primary)",
+              boxShadow: `0 4px 14px rgba(var(--color-primary-rgb), 0.25)`,
+            }}
+          >
+            <SendHorizonal size={16} />
+          </button>
         </div>
       </div>
     </div>
