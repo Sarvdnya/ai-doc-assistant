@@ -1,0 +1,42 @@
+{
+  "documentId": "6a5f1c65e5c8e06f98154ad8",
+  "title": "Retenzy: Maximizing Customer Lifetime Value",
+  "duration": "15 seconds",
+  "sceneCount": 2,
+  "scenes": [
+    {
+      "scene": 1,
+      "title": "Retenzy: Maximizing Customer Lifetime Value",
+      "duration": 7,
+      "narration": "Retenzy is a Shopify loyalty platform designed to maximize Customer Lifetime Value.",
+      "visual": "A clean diagram showing rewards, referrals, and reviews boosting Shopify store sales.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 1: A clean diagram showing rewards, referrals, and reviews boosting Shopify store sales.. Narration context: \"Retenzy is a Shopify loyalty platform designed to maximize Customer Lifetime Value.\"",
+      "imagePath": "generated/6a5f1c65e5c8e06f98154ad8/images/scene-01.jpg",
+      "audioPath": "generated/6a5f1c65e5c8e06f98154ad8/audio/scene-01.mp3"
+    },
+    {
+      "scene": 2,
+      "title": "Retenzy: Maximizing Customer Lifetime Value",
+      "duration": 8,
+      "narration": "It automates social proof collection and drives engagement through tiered, gamified VIP programs.",
+      "visual": "An animated smartphone screen showcasing points accumulation and positive customer feedback badges.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 2: An animated smartphone screen showcasing points accumulation and positive customer feedback badges.. Narration context: \"It automates social proof collection and drives engagement through tiered, gamified VIP programs.\"",
+      "imagePath": "generated/6a5f1c65e5c8e06f98154ad8/images/scene-02.jpg",
+      "audioPath": "generated/6a5f1c65e5c8e06f98154ad8/audio/scene-02.mp3"
+    }
+  ],
+  "settings": {
+    "duration": "15 seconds",
+    "sceneCount": 2,
+    "imageStyle": "Educational Illustration",
+    "voice": "Female",
+    "narrationStyle": "Professional",
+    "audience": "College Students",
+    "language": "English",
+    "subtitles": false,
+    "backgroundMusic": false,
+    "transitions": "Fade",
+    "aspectRatio": "16:9"
+  },
+  "generatedAt": "2026-07-21T07:18:40.428Z"
+}

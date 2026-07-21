@@ -1,0 +1,52 @@
+{
+  "documentId": "6a5e0b468380a855e5f6ea1b",
+  "title": "Retenzy: E-commerce Customer Retention",
+  "duration": "30 seconds",
+  "sceneCount": 3,
+  "scenes": [
+    {
+      "scene": 1,
+      "title": "Retenzy: E-commerce Customer Retention",
+      "duration": 10,
+      "narration": "Meet Retenzy, an all-in-one customer retention platform launched in 2023 specifically for Shopify merchants to maximize customer lifetime value.",
+      "visual": "Minimalist diagram showing a Shopify storefront connecting to a Retenzy loyalty rewards icon.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 1: Minimalist diagram showing a Shopify storefront connecting to a Retenzy loyalty rewards icon.. Narration context: \"Meet Retenzy, an all-in-one customer retention platform launched in 2023 specifically for Shopify merchants to maximize customer lifetime value.\"",
+      "imagePath": "generated/6a5e0b468380a855e5f6ea1b/images/scene-01.png",
+      "audioPath": "generated/6a5e0b468380a855e5f6ea1b/audio/scene-01.mp3"
+    },
+    {
+      "scene": 2,
+      "title": "Retenzy: E-commerce Customer Retention",
+      "duration": 10,
+      "narration": "It drives engagement using tiered loyalty programs and automated social proof by collecting reviews that sync directly with Google Shopping.",
+      "visual": "Icons representing VIP membership tiers, customer reviews, and a Google Shopping search bar.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 2: Icons representing VIP membership tiers, customer reviews, and a Google Shopping search bar.. Narration context: \"It drives engagement using tiered loyalty programs and automated social proof by collecting reviews that sync directly with Google Shopping.\"",
+      "imagePath": "generated/6a5e0b468380a855e5f6ea1b/images/scene-02.png",
+      "audioPath": "generated/6a5e0b468380a855e5f6ea1b/audio/scene-02.mp3"
+    },
+    {
+      "scene": 3,
+      "title": "Retenzy: E-commerce Customer Retention",
+      "duration": 10,
+      "narration": "With over fifteen no-code widgets and built-in email marketing flows, Retenzy simplifies retention without requiring custom development.",
+      "visual": "A split screen displaying simple email templates and drag-and-drop promotional widgets.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 3: A split screen displaying simple email templates and drag-and-drop promotional widgets.. Narration context: \"With over fifteen no-code widgets and built-in email marketing flows, Retenzy simplifies retention without requiring custom development.\"",
+      "imagePath": "generated/6a5e0b468380a855e5f6ea1b/images/scene-03.png",
+      "audioPath": "generated/6a5e0b468380a855e5f6ea1b/audio/scene-03.mp3"
+    }
+  ],
+  "settings": {
+    "duration": "30 seconds",
+    "sceneCount": 3,
+    "imageStyle": "Educational Illustration",
+    "voice": "Female",
+    "narrationStyle": "Professional",
+    "audience": "College Students",
+    "language": "English",
+    "subtitles": false,
+    "backgroundMusic": false,
+    "transitions": "Fade",
+    "aspectRatio": "16:9"
+  },
+  "generatedAt": "2026-07-20T11:52:51.149Z"
+}

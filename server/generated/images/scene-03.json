@@ -1,9 +1,0 @@
-{
-  "scene": 3,
-  "title": "Earthquake Safety and Preparedness Guide",
-  "duration": 9,
-  "narration": "Start by identifying the safest places in every room. Stay clear of windows, heavy furniture, fireplaces, and unsecured exterior walls.",
-  "visual": "2D vector plan of a living room with green checkmarks marking safe spots away from glass and tall cabinets.",
-  "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 3: 2D vector plan of a living room with green checkmarks marking safe spots away from glass and tall cabinets.. Narration context: \"Start by identifying the safest places in every room. Stay clear of windows, heavy furniture, fireplaces, and unsecured exterior walls.\"",
-  "imagePath": "generated/images/scene-03.png"
-}

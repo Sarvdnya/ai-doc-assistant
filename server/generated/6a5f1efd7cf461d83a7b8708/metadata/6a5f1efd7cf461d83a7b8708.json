@@ -1,0 +1,62 @@
+{
+  "documentId": "6a5f1efd7cf461d83a7b8708",
+  "title": "Retenzy: Shopify Customer Retention and Loyalty Platform",
+  "duration": "30 seconds",
+  "sceneCount": 4,
+  "scenes": [
+    {
+      "scene": 1,
+      "title": "Retenzy: Shopify Customer Retention and Loyalty Platform",
+      "duration": 8,
+      "narration": "क्या आप जानते हैं कि नए ग्राहकों को खोजने से बेहतर मौजूदा ग्राहकों को बनाए रखना है? मिलिए Retenzy से।",
+      "visual": "Animated Shopify store showing customer retention dropping, then Retenzy logo appearing.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 1: Animated Shopify store showing customer retention dropping, then Retenzy logo appearing.. Narration context: \"क्या आप जानते हैं कि नए ग्राहकों को खोजने से बेहतर मौजूदा ग्राहकों को बनाए रखना है? मिलिए Retenzy से।\"",
+      "imagePath": "generated/6a5f1efd7cf461d83a7b8708/images/scene-01.jpg",
+      "audioPath": "generated/6a5f1efd7cf461d83a7b8708/audio/scene-01.mp3"
+    },
+    {
+      "scene": 2,
+      "title": "Retenzy: Shopify Customer Retention and Loyalty Platform",
+      "duration": 7,
+      "narration": "यह ऑल-इन-वन प्लेटफॉर्म रिवॉर्ड्स, वीआईपी टियर्स और रेफ़रल्स के ज़रिए कस्टमर लाइफटाइम वैल्यू को बढ़ाता है।",
+      "visual": "Graphics of points, VIP tiers, and referral rewards unlocking on a mobile screen.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 2: Graphics of points, VIP tiers, and referral rewards unlocking on a mobile screen.. Narration context: \"यह ऑल-इन-वन प्लेटफॉर्म रिवॉर्ड्स, वीआईपी टियर्स और रेफ़रल्स के ज़रिए कस्टमर लाइफटाइम वैल्यू को बढ़ाता है।\"",
+      "imagePath": "generated/6a5f1efd7cf461d83a7b8708/images/scene-02.jpg",
+      "audioPath": "generated/6a5f1efd7cf461d83a7b8708/audio/scene-02.mp3"
+    },
+    {
+      "scene": 3,
+      "title": "Retenzy: Shopify Customer Retention and Loyalty Platform",
+      "duration": 8,
+      "narration": "इसके ऑटोमेटेड रिव्यूज़ और गूगल शॉपिंग इंटीग्रेशन आपके स्टोर की दृश्यता और सोशल प्रूफ को मजबूत करते हैं।",
+      "visual": "Customer writing a review, converting into star ratings and Google SEO search results.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 3: Customer writing a review, converting into star ratings and Google SEO search results.. Narration context: \"इसके ऑटोमेटेड रिव्यूज़ और गूगल शॉपिंग इंटीग्रेशन आपके स्टोर की दृश्यता और सोशल प्रूफ को मजबूत करते हैं।\"",
+      "imagePath": "generated/6a5f1efd7cf461d83a7b8708/images/scene-03.jpg",
+      "audioPath": "generated/6a5f1efd7cf461d83a7b8708/audio/scene-03.mp3"
+    },
+    {
+      "scene": 4,
+      "title": "Retenzy: Shopify Customer Retention and Loyalty Platform",
+      "duration": 7,
+      "narration": "15 से अधिक इन-बिल्ट विजेट्स और ऑटोमेटेड ईमेल के साथ, Retenzy ई-कॉमर्स ग्रोथ को आसान बनाता है।",
+      "visual": "Shopify dashboard displaying Retenzy's 15+ widgets and automated email flows working.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 4: Shopify dashboard displaying Retenzy's 15+ widgets and automated email flows working.. Narration context: \"15 से अधिक इन-बिल्ट विजेट्स और ऑटोमेटेड ईमेल के साथ, Retenzy ई-कॉमर्स ग्रोथ को आसान बनाता है।\"",
+      "imagePath": "generated/6a5f1efd7cf461d83a7b8708/images/scene-04.jpg",
+      "audioPath": "generated/6a5f1efd7cf461d83a7b8708/audio/scene-04.mp3"
+    }
+  ],
+  "settings": {
+    "duration": "30 seconds",
+    "sceneCount": 4,
+    "imageStyle": "Educational Illustration",
+    "voice": "Male",
+    "narrationStyle": "Professional",
+    "audience": "College Students",
+    "language": "Hindi",
+    "subtitles": false,
+    "backgroundMusic": false,
+    "transitions": "Fade",
+    "aspectRatio": "16:9"
+  },
+  "generatedAt": "2026-07-21T07:28:43.022Z"
+}

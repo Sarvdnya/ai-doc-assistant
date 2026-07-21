@@ -1,9 +1,0 @@
-{
-  "scene": 10,
-  "title": "Earthquake Safety and Preparedness Guide",
-  "duration": 9,
-  "narration": "Near coasts, move to higher ground immediately to escape potential tsunamis. In mountains, stay alert for falling rocks, landslides, or blocked streams.",
-  "visual": "Simple 2D flat landscape showing a path leading up a hill away from the ocean and a warning sign for falling rocks.",
-  "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 10: Simple 2D flat landscape showing a path leading up a hill away from the ocean and a warning sign for falling rocks.. Narration context: \"Near coasts, move to higher ground immediately to escape potential tsunamis. In mountains, stay alert for falling rocks, landslides, or blocked streams.\"",
-  "imagePath": "generated/images/scene-10.png"
-}

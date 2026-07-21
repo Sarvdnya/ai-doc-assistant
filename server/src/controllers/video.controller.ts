@@ -1,12 +1,17 @@
+import fs from "fs";
+import path from "path";
 import type { Request, Response } from "express";
 import mongoose from "mongoose";
 import { runVideoPipeline } from "../services/videoPipeline.service.js";
+
+const GENERATED_DIR = path.resolve(import.meta.dirname, "..", "..", "generated");
+const PORT = process.env.PORT ?? "5000";
 
 export async function generateVideo(
   req: Request,
   res: Response
 ): Promise<void> {
-  const { documentId } = req.body;
+  const { documentId, settings, force = false } = req.body;
 
   console.log("[VIDEO] Incoming documentId:", documentId);
 
@@ -22,9 +27,25 @@ export async function generateVideo(
 
   try {
     console.log("[VIDEO] Starting pipeline");
-    const project = await runVideoPipeline(documentId);
+    const project = await runVideoPipeline(documentId, { force: force === true, settings });
     console.log("[VIDEO] Pipeline request completed");
-    res.json({ success: true, project });
+
+    const outputPath = path.join(GENERATED_DIR, documentId, "output", "overview.mp4");
+    if (!fs.existsSync(outputPath)) {
+      res.status(500).json({
+        success: false,
+        message: "Video file was not created on disk",
+      });
+      return;
+    }
+
+    res.json({
+      success: true,
+      videoUrl: `http://localhost:${PORT}/generated/${documentId}/output/overview.mp4`,
+      title: project.title,
+      duration: project.duration,
+      sceneCount: project.sceneCount,
+    });
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
 

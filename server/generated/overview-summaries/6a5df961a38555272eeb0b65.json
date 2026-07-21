@@ -1,0 +1,14 @@
+{
+  "documentId": "6a5df961a38555272eeb0b65",
+  "title": "react.pdf",
+  "maxPromptChars": 4000,
+  "summaries": [
+    "* React components are composable, meaning a component can include one or more other components in its output.\n* React apps are built by writing components that correspond to interface elements.\n* These components are organized inside higher-level components that define the application's structure.\n* Each component in a React app abides by strict data management principles.\n* React's limited surface area provides tools to handle complex data and application state.",
+    "* React is a JavaScript framework.\n* The surface area of React is limited.\n* React aims to provide tools to anticipate how an application will look with a given set of circumstances.\n* Using the framework involves including a JavaScript file in the HTML and using React exports in the application's JavaScript.\n* The course digs into these principles later.",
+    "* The HTML document includes scripts for React (version 15.3.1), ReactDOM (version 15.3.1), and Babel (version 6).\n* A single line of JavaScript code dynamically adds \"Hello world\" to the page.\n* The script uses `ReactDOM.render` to insert the `<h1>Hello world</h1>` element into the HTML element with the ID `app`.\n* Only a handful of JavaScript files are required to get everything working.\n* React operates on a virtual DOM rather than directly on the browser's Document Object Model (DOM) immediately.",
+    "* React operates on a virtual DOM rather than directly on the browser's Document Object Model (DOM).\n* Manipulating the browser's DOM after data changes can be slow.\n* React resolves changes on a DOM built and run entirely in memory.\n* React determines what changes to make to the actual browser's DOM after the virtual DOM is updated.",
+    "* The React Virtual DOM (https://facebook.github.io/react/docs/dom-differences.html) exists entirely in-memory and is a representation of the web browser's DOM.\n* React components are written as virtual components that React turns into the DOM, rather than writing directly to the DOM.\n* The next article covers building React components, JSX, and writing first real components.\n* 4",
+    "* The React ecosystem includes ES6 and JSX.\n* ES stands for ECMAScript.\n* ES5 is the 5th update to JavaScript, finalized in 2009, and is basically \"regular JavaScript.\"\n* ES5 has been supported by all major browsers for several years.\n* ES6 is a new version of JavaScript that adds new syntax.",
+    "* ES5 has been supported by all major browsers for several years.\n* JavaScript written or seen in the recent past is likely ES5.\n* ES6 is a version of JavaScript that adds syntactical and functional additions.\n* ES6 was finalized in 2015.\n* ES6 is almost fully supported by all major browsers (http://kangax.github.io/compat-table/es6/)."
+  ]
+}

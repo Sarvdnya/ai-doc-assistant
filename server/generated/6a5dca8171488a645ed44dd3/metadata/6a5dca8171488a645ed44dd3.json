@@ -1,0 +1,102 @@
+{
+  "documentId": "6a5dca8171488a645ed44dd3",
+  "title": "Earthquakes: Causes, Measurement, and Hazards",
+  "duration": "90 seconds",
+  "sceneCount": 8,
+  "scenes": [
+    {
+      "scene": 1,
+      "title": "Earthquakes: Causes, Measurement, and Hazards",
+      "duration": 11,
+      "narration": "Earthquakes represent one of Earth's most dynamic forces, occurring when tectonic plates suddenly slip past each other, releasing vast amounts of stored energy.",
+      "visual": "A 3D diagram showing two tectonic plates grinding and slipping against each other.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 1: A 3D diagram showing two tectonic plates grinding and slipping against each other.. Narration context: \"Earthquakes represent one of Earth's most dynamic forces, occurring when tectonic plates suddenly slip past each other, releasing vast amounts of stored energy.\"",
+      "imagePath": "generated/6a5dca8171488a645ed44dd3/images/scene-01.png",
+      "audioPath": "generated/6a5dca8171488a645ed44dd3/audio/scene-01.mp3"
+    },
+    {
+      "scene": 2,
+      "title": "Earthquakes: Causes, Measurement, and Hazards",
+      "duration": 11,
+      "narration": "This rapid release of stress along geological fault lines propagates outward through the Earth's crust in the form of seismic waves.",
+      "visual": "An animation of seismic waves radiating outward from a cracked fault line.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 2: An animation of seismic waves radiating outward from a cracked fault line.. Narration context: \"This rapid release of stress along geological fault lines propagates outward through the Earth's crust in the form of seismic waves.\"",
+      "imagePath": "generated/6a5dca8171488a645ed44dd3/images/scene-02.png",
+      "audioPath": "generated/6a5dca8171488a645ed44dd3/audio/scene-02.mp3"
+    },
+    {
+      "scene": 3,
+      "title": "Earthquakes: Causes, Measurement, and Hazards",
+      "duration": 11,
+      "narration": "To understand these events, we must distinguish between key locations. The underground point where the actual rupture begins is called the hypocenter.",
+      "visual": "A cross-section of Earth highlighting a glowing point deep underground labeled 'Hypocenter'.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 3: A cross-section of Earth highlighting a glowing point deep underground labeled 'Hypocenter'.. Narration context: \"To understand these events, we must distinguish between key locations. The underground point where the actual rupture begins is called the hypocenter.\"",
+      "imagePath": "generated/6a5dca8171488a645ed44dd3/images/scene-03.png",
+      "audioPath": "generated/6a5dca8171488a645ed44dd3/audio/scene-03.mp3"
+    },
+    {
+      "scene": 4,
+      "title": "Earthquakes: Causes, Measurement, and Hazards",
+      "duration": 11,
+      "narration": "Directly above the hypocenter, on the Earth's surface, lies the epicenter, which typically experiences the most intense and destructive ground shaking.",
+      "visual": "A surface map showing a red dot labeled 'Epicenter' directly above the underground hypocenter.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 4: A surface map showing a red dot labeled 'Epicenter' directly above the underground hypocenter.. Narration context: \"Directly above the hypocenter, on the Earth's surface, lies the epicenter, which typically experiences the most intense and destructive ground shaking.\"",
+      "imagePath": "generated/6a5dca8171488a645ed44dd3/images/scene-04.png",
+      "audioPath": "generated/6a5dca8171488a645ed44dd3/audio/scene-04.mp3"
+    },
+    {
+      "scene": 5,
+      "title": "Earthquakes: Causes, Measurement, and Hazards",
+      "duration": 11,
+      "narration": "Seismologists track these movements using highly sensitive instruments called seismometers, which record the amplitude and frequency of ground vibrations.",
+      "visual": "An animation of a seismometer needle drawing waves on a scrolling digital chart.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 5: An animation of a seismometer needle drawing waves on a scrolling digital chart.. Narration context: \"Seismologists track these movements using highly sensitive instruments called seismometers, which record the amplitude and frequency of ground vibrations.\"",
+      "imagePath": "generated/6a5dca8171488a645ed44dd3/images/scene-05.png",
+      "audioPath": "generated/6a5dca8171488a645ed44dd3/audio/scene-05.mp3"
+    },
+    {
+      "scene": 6,
+      "title": "Earthquakes: Causes, Measurement, and Hazards",
+      "duration": 12,
+      "narration": "While the historical Richter scale measured wave amplitude, modern science relies on the Moment Magnitude Scale to calculate the total energy released.",
+      "visual": "A side-by-side comparison infographic of the Richter scale versus the Moment Magnitude Scale.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 6: A side-by-side comparison infographic of the Richter scale versus the Moment Magnitude Scale.. Narration context: \"While the historical Richter scale measured wave amplitude, modern science relies on the Moment Magnitude Scale to calculate the total energy released.\"",
+      "imagePath": "generated/6a5dca8171488a645ed44dd3/images/scene-06.png",
+      "audioPath": "generated/6a5dca8171488a645ed44dd3/audio/scene-06.mp3"
+    },
+    {
+      "scene": 7,
+      "title": "Earthquakes: Causes, Measurement, and Hazards",
+      "duration": 11,
+      "narration": "Seismic events rarely happen in isolation; they typically form sequences, beginning with smaller foreshocks and followed by disruptive aftershocks.",
+      "visual": "A timeline graphic displaying a small foreshock, a major mainshock, and subsequent aftershocks.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 7: A timeline graphic displaying a small foreshock, a major mainshock, and subsequent aftershocks.. Narration context: \"Seismic events rarely happen in isolation; they typically form sequences, beginning with smaller foreshocks and followed by disruptive aftershocks.\"",
+      "imagePath": "generated/6a5dca8171488a645ed44dd3/images/scene-07.png",
+      "audioPath": "generated/6a5dca8171488a645ed44dd3/audio/scene-07.mp3"
+    },
+    {
+      "scene": 8,
+      "title": "Earthquakes: Causes, Measurement, and Hazards",
+      "duration": 12,
+      "narration": "Beyond immediate ground shaking, earthquakes trigger dangerous secondary hazards, including catastrophic landslides, fires, and devastating oceanic tsunamis.",
+      "visual": "Icons depicting earthquake hazards: shaking buildings, a landslide, and a tsunami wave.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 8: Icons depicting earthquake hazards: shaking buildings, a landslide, and a tsunami wave.. Narration context: \"Beyond immediate ground shaking, earthquakes trigger dangerous secondary hazards, including catastrophic landslides, fires, and devastating oceanic tsunamis.\"",
+      "imagePath": "generated/6a5dca8171488a645ed44dd3/images/scene-08.png",
+      "audioPath": "generated/6a5dca8171488a645ed44dd3/audio/scene-08.mp3"
+    }
+  ],
+  "settings": {
+    "duration": "90 seconds",
+    "sceneCount": 8,
+    "imageStyle": "Educational Illustration",
+    "voice": "Female",
+    "narrationStyle": "Professional",
+    "audience": "College Students",
+    "language": "English",
+    "subtitles": false,
+    "backgroundMusic": false,
+    "transitions": "Fade",
+    "aspectRatio": "16:9"
+  },
+  "generatedAt": "2026-07-20T11:44:30.099Z"
+}

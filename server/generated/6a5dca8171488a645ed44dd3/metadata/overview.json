@@ -1,0 +1,70 @@
+{
+  "documentId": "6a5dca8171488a645ed44dd3",
+  "overview": {
+    "title": "Earthquakes: Causes, Measurement, and Hazards",
+    "duration": "90 seconds",
+    "scenes": [
+      {
+        "scene": 1,
+        "duration": "11 sec",
+        "narration": "Earthquakes represent one of Earth's most dynamic forces, occurring when tectonic plates suddenly slip past each other, releasing vast amounts of stored energy.",
+        "visual": "A 3D diagram showing two tectonic plates grinding and slipping against each other."
+      },
+      {
+        "scene": 2,
+        "duration": "11 sec",
+        "narration": "This rapid release of stress along geological fault lines propagates outward through the Earth's crust in the form of seismic waves.",
+        "visual": "An animation of seismic waves radiating outward from a cracked fault line."
+      },
+      {
+        "scene": 3,
+        "duration": "11 sec",
+        "narration": "To understand these events, we must distinguish between key locations. The underground point where the actual rupture begins is called the hypocenter.",
+        "visual": "A cross-section of Earth highlighting a glowing point deep underground labeled 'Hypocenter'."
+      },
+      {
+        "scene": 4,
+        "duration": "11 sec",
+        "narration": "Directly above the hypocenter, on the Earth's surface, lies the epicenter, which typically experiences the most intense and destructive ground shaking.",
+        "visual": "A surface map showing a red dot labeled 'Epicenter' directly above the underground hypocenter."
+      },
+      {
+        "scene": 5,
+        "duration": "11 sec",
+        "narration": "Seismologists track these movements using highly sensitive instruments called seismometers, which record the amplitude and frequency of ground vibrations.",
+        "visual": "An animation of a seismometer needle drawing waves on a scrolling digital chart."
+      },
+      {
+        "scene": 6,
+        "duration": "12 sec",
+        "narration": "While the historical Richter scale measured wave amplitude, modern science relies on the Moment Magnitude Scale to calculate the total energy released.",
+        "visual": "A side-by-side comparison infographic of the Richter scale versus the Moment Magnitude Scale."
+      },
+      {
+        "scene": 7,
+        "duration": "11 sec",
+        "narration": "Seismic events rarely happen in isolation; they typically form sequences, beginning with smaller foreshocks and followed by disruptive aftershocks.",
+        "visual": "A timeline graphic displaying a small foreshock, a major mainshock, and subsequent aftershocks."
+      },
+      {
+        "scene": 8,
+        "duration": "12 sec",
+        "narration": "Beyond immediate ground shaking, earthquakes trigger dangerous secondary hazards, including catastrophic landslides, fires, and devastating oceanic tsunamis.",
+        "visual": "Icons depicting earthquake hazards: shaking buildings, a landslide, and a tsunami wave."
+      }
+    ]
+  },
+  "settings": {
+    "duration": "90 seconds",
+    "sceneCount": 8,
+    "imageStyle": "Educational Illustration",
+    "voice": "Female",
+    "narrationStyle": "Professional",
+    "audience": "College Students",
+    "language": "English",
+    "subtitles": false,
+    "backgroundMusic": false,
+    "transitions": "Fade",
+    "aspectRatio": "16:9"
+  }
+}

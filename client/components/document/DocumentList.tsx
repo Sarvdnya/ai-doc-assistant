@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, FileText, Trash2 } from "lucide-react";
+import { Search, FileText, Trash2, Video } from "lucide-react";
 import type { DocumentFile } from "./types";
 
 interface DocumentListProps {
@@ -79,20 +79,37 @@ export default function DocumentList({
               <p className="text-xs text-gray-500">
                 {new Date(doc.uploadedAt).toLocaleString()}
               </p>
-              <span className={[
-                "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium mt-0.5",
-                doc.status === "uploading" && "bg-blue-100 text-blue-700",
-                doc.status === "processing" && "bg-yellow-100 text-yellow-700",
-                doc.status === "embedding" && "bg-purple-100 text-purple-700",
-                doc.status === "ready" && "bg-green-100 text-green-700",
-                doc.status === "failed" && "bg-red-100 text-red-700",
-              ].filter(Boolean).join(" ")}>
-                {doc.status === "uploading" && "\u25CF Uploading"}
-                {doc.status === "processing" && "\u25CF Processing"}
-                {doc.status === "embedding" && "\u25CF Embedding"}
-                {doc.status === "ready" && "\u25CF Ready"}
-                {doc.status === "failed" && "\u25CF Failed"}
-              </span>
+              <div className="flex flex-wrap gap-1 mt-0.5">
+                <span className={[
+                  "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium",
+                  doc.status === "uploading" && "bg-blue-100 text-blue-700",
+                  doc.status === "processing" && "bg-yellow-100 text-yellow-700",
+                  doc.status === "embedding" && "bg-purple-100 text-purple-700",
+                  doc.status === "ready" && "bg-green-100 text-green-700",
+                  doc.status === "failed" && "bg-red-100 text-red-700",
+                ].filter(Boolean).join(" ")}>
+                  {doc.status === "uploading" && "\u25CF Uploading"}
+                  {doc.status === "processing" && "\u25CF Processing"}
+                  {doc.status === "embedding" && "\u25CF Embedding"}
+                  {doc.status === "ready" && "\u25CF Ready"}
+                  {doc.status === "failed" && "\u25CF Failed"}
+                </span>
+
+                {doc.video?.status === "ready" && (
+                  <>
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-700">
+                      <Video size={12} />
+                      Video Ready
+                    </span>
+                    <span className="text-xs text-gray-400">
+                      {doc.overview?.sceneCount ?? "-"} scenes
+                    </span>
+                    <span className="text-xs text-gray-400">
+                      {doc.overview?.duration ?? ""}
+                    </span>
+                  </>
+                )}
+              </div>
             </div>
 
             <button

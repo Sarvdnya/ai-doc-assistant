@@ -44,6 +44,21 @@ export interface IDocument extends Document {
     status: "pending" | "generating" | "ready" | "failed";
     url?: string;
     duration?: string;
+    generatedAt?: Date;
+  };
+
+  videoSettings?: {
+    duration?: string;
+    sceneCount?: number;
+    imageStyle?: string;
+    voice?: string;
+    narrationStyle?: string;
+    audience?: string;
+    language?: string;
+    subtitles?: boolean;
+    backgroundMusic?: boolean;
+    transitions?: string;
+    aspectRatio?: string;
   };
 }
 
@@ -157,6 +172,27 @@ const DocumentSchema = new Schema<IDocument>({
         },
         url: String,
         duration: String,
+        generatedAt: Date,
+      },
+      { _id: false }
+    ),
+    default: undefined,
+  },
+
+  videoSettings: {
+    type: new Schema(
+      {
+        duration: String,
+        sceneCount: Number,
+        imageStyle: String,
+        voice: String,
+        narrationStyle: String,
+        audience: String,
+        language: String,
+        subtitles: Boolean,
+        backgroundMusic: Boolean,
+        transitions: String,
+        aspectRatio: String,
       },
       { _id: false }
     ),

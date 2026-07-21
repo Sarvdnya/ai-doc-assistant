@@ -1,9 +1,0 @@
-{
-  "scene": 6,
-  "title": "Earthquake Safety and Preparedness Guide",
-  "duration": 9,
-  "narration": "If shaking starts, drop to your knees, cover your head and neck, and hold on to a sturdy table. Do not try to run.",
-  "visual": "Simple 2D icon of a person dropping under a sturdy desk, holding onto one of its legs.",
-  "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 6: Simple 2D icon of a person dropping under a sturdy desk, holding onto one of its legs.. Narration context: \"If shaking starts, drop to your knees, cover your head and neck, and hold on to a sturdy table. Do not try to run.\"",
-  "imagePath": "generated/images/scene-06.png"
-}

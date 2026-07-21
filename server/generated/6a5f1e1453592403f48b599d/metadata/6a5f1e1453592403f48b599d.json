@@ -1,0 +1,42 @@
+{
+  "documentId": "6a5f1e1453592403f48b599d",
+  "title": "Retenzy: Maximizing E-commerce Customer Retention",
+  "duration": "15 seconds",
+  "sceneCount": 2,
+  "scenes": [
+    {
+      "scene": 1,
+      "title": "Retenzy: Maximizing E-commerce Customer Retention",
+      "duration": 7,
+      "narration": "Retenzy is an all-in-one Shopify platform that boosts Customer Lifetime Value using integrated loyalty rewards and referrals.",
+      "visual": "A digital diagram showing customer repeat purchases connected to loyalty points and referral bonuses.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 1: A digital diagram showing customer repeat purchases connected to loyalty points and referral bonuses.. Narration context: \"Retenzy is an all-in-one Shopify platform that boosts Customer Lifetime Value using integrated loyalty rewards and referrals.\"",
+      "imagePath": "generated/6a5f1e1453592403f48b599d/images/scene-01.jpg",
+      "audioPath": "generated/6a5f1e1453592403f48b599d/audio/scene-01.mp3"
+    },
+    {
+      "scene": 2,
+      "title": "Retenzy: Maximizing E-commerce Customer Retention",
+      "duration": 8,
+      "narration": "With no-code widgets and automated reviews, it seamlessly drives social proof and improves search visibility.",
+      "visual": "An interface showcasing easy drag-and-drop rewards widgets and automated customer review stars.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 2: An interface showcasing easy drag-and-drop rewards widgets and automated customer review stars.. Narration context: \"With no-code widgets and automated reviews, it seamlessly drives social proof and improves search visibility.\"",
+      "imagePath": "generated/6a5f1e1453592403f48b599d/images/scene-02.jpg",
+      "audioPath": "generated/6a5f1e1453592403f48b599d/audio/scene-02.mp3"
+    }
+  ],
+  "settings": {
+    "duration": "15 seconds",
+    "sceneCount": 2,
+    "imageStyle": "Educational Illustration",
+    "voice": "Female",
+    "narrationStyle": "Professional",
+    "audience": "College Students",
+    "language": "English",
+    "subtitles": false,
+    "backgroundMusic": false,
+    "transitions": "Fade",
+    "aspectRatio": "16:9"
+  },
+  "generatedAt": "2026-07-21T07:26:12.690Z"
+}

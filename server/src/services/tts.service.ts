@@ -2,7 +2,7 @@ import { spawn } from "child_process";
 import fs from "fs/promises";
 import path from "path";
 
-const AUDIO_DIR = path.resolve(import.meta.dirname, "../..", "generated", "audio");
+const GENERATED_DIR = path.resolve(import.meta.dirname, "../..", "generated");
 const GEMINI_TTS_MODEL = process.env.GEMINI_TTS_MODEL ?? "gemini-3.1-flash-tts-preview";
 const GEMINI_TTS_VOICE = process.env.GEMINI_TTS_VOICE ?? "Kore";
 const RETRY_COUNT = 3;
@@ -16,15 +16,14 @@ export interface NarrationScene {
 
 export interface NarrationResult {
   audioPath: string;
-  duration: number;
 }
 
 interface TtsProvider {
-  synthesize(narration: string): Promise<{ pcm: Buffer; sampleRate: number }>;
+  synthesize(narration: string, voice?: string): Promise<{ pcm: Buffer; sampleRate: number }>;
 }
 
 class GeminiTtsProvider implements TtsProvider {
-  async synthesize(narration: string): Promise<{ pcm: Buffer; sampleRate: number }> {
+  async synthesize(narration: string, voice?: string): Promise<{ pcm: Buffer; sampleRate: number }> {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) throw new Error("GEMINI_API_KEY is not configured");
 
@@ -41,7 +40,7 @@ class GeminiTtsProvider implements TtsProvider {
           responseModalities: ["AUDIO"],
           speechConfig: {
             voiceConfig: {
-              prebuiltVoiceConfig: { voiceName: GEMINI_TTS_VOICE },
+              prebuiltVoiceConfig: { voiceName: voice?.toLowerCase() === "female" ? "Kore" : voice?.toLowerCase() === "male" ? "Puck" : GEMINI_TTS_VOICE },
             },
           },
         },
@@ -70,6 +69,10 @@ function filenameForScene(scene: number): string {
   return `scene-${String(scene).padStart(2, "0")}.mp3`;
 }
 
+function audioDir(documentId: string): string {
+  return path.join(GENERATED_DIR, documentId, "audio");
+}
+
 function writeMp3(pcm: Buffer, sampleRate: number, outputPath: string): Promise<void> {
   return new Promise((resolve, reject) => {
     const ffmpeg = spawn("ffmpeg", [
@@ -88,11 +91,11 @@ function writeMp3(pcm: Buffer, sampleRate: number, outputPath: string): Promise<
   });
 }
 
-async function synthesizeWithRetry(narration: string): Promise<{ pcm: Buffer; sampleRate: number }> {
+async function synthesizeWithRetry(narration: string, voice?: string): Promise<{ pcm: Buffer; sampleRate: number }> {
   let lastError: unknown;
   for (let attempt = 0; attempt <= RETRY_COUNT; attempt += 1) {
     try {
-      return await provider.synthesize(narration);
+      return await provider.synthesize(narration, voice);
     } catch (error) {
       lastError = error;
       if (attempt === RETRY_COUNT) break;
@@ -101,31 +104,41 @@ async function synthesizeWithRetry(narration: string): Promise<{ pcm: Buffer; sa
   throw lastError instanceof Error ? lastError : new Error(String(lastError));
 }
 
-export async function generateNarration(scene: NarrationScene): Promise<NarrationResult> {
+export async function generateNarration(documentId: string, scene: NarrationScene, options: { force?: boolean; voice?: string } = {}): Promise<NarrationResult> {
   if (!scene.narration.trim()) throw new Error(`Scene ${scene.scene} has no narration`);
 
-  await fs.mkdir(AUDIO_DIR, { recursive: true });
+  const dir = audioDir(documentId);
+  await fs.mkdir(dir, { recursive: true });
   const filename = filenameForScene(scene.scene);
-  const outputPath = path.join(AUDIO_DIR, filename);
-  const { pcm, sampleRate } = await synthesizeWithRetry(scene.narration);
+  const outputPath = path.join(dir, filename);
+  if (!options.force) try {
+    await fs.access(outputPath);
+    console.log(`[AUDIO] Scene ${scene.scene} already exists`);
+    console.log("[AUDIO] Skipping");
+    return { audioPath: `generated/${documentId}/audio/${filename}` };
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+  }
+  const { pcm, sampleRate } = await synthesizeWithRetry(scene.narration, options.voice);
   await writeMp3(pcm, sampleRate, outputPath);
 
   return {
-    audioPath: `generated/audio/${filename}`,
-    duration: Number((pcm.length / (sampleRate * PCM_BYTES_PER_SAMPLE)).toFixed(1)),
+    audioPath: `generated/${documentId}/audio/${filename}`,
   };
 }
 
 /** Generates scene narration files sequentially and returns scenes with audioPath filled. */
 export async function generateNarrations<T extends NarrationScene>(
-  scenes: T[]
+  documentId: string,
+  scenes: T[],
+  options: { force?: boolean; voice?: string } = {}
 ): Promise<Array<T & NarrationResult>> {
   const updatedScenes: Array<T & NarrationResult> = [];
 
   for (const [index, scene] of scenes.entries()) {
-    console.log(`[TTS] Scene ${index + 1}/${scenes.length}`);
+    console.log(`[AUDIO] Scene ${index + 1}/${scenes.length}`);
     console.log("[TTS] Generating narration");
-    const narration = await generateNarration(scene);
+    const narration = await generateNarration(documentId, scene, options);
     console.log(`[TTS] Saved ${path.basename(narration.audioPath)}`);
     updatedScenes.push({ ...scene, ...narration });
   }

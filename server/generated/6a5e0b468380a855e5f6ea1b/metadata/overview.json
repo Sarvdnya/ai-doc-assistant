@@ -1,0 +1,40 @@
+{
+  "documentId": "6a5e0b468380a855e5f6ea1b",
+  "overview": {
+    "title": "Retenzy: E-commerce Customer Retention",
+    "duration": "30 seconds",
+    "scenes": [
+      {
+        "scene": 1,
+        "duration": "10 sec",
+        "narration": "Meet Retenzy, an all-in-one customer retention platform launched in 2023 specifically for Shopify merchants to maximize customer lifetime value.",
+        "visual": "Minimalist diagram showing a Shopify storefront connecting to a Retenzy loyalty rewards icon."
+      },
+      {
+        "scene": 2,
+        "duration": "10 sec",
+        "narration": "It drives engagement using tiered loyalty programs and automated social proof by collecting reviews that sync directly with Google Shopping.",
+        "visual": "Icons representing VIP membership tiers, customer reviews, and a Google Shopping search bar."
+      },
+      {
+        "scene": 3,
+        "duration": "10 sec",
+        "narration": "With over fifteen no-code widgets and built-in email marketing flows, Retenzy simplifies retention without requiring custom development.",
+        "visual": "A split screen displaying simple email templates and drag-and-drop promotional widgets."
+      }
+    ]
+  },
+  "settings": {
+    "duration": "30 seconds",
+    "sceneCount": 3,
+    "imageStyle": "Educational Illustration",
+    "voice": "Female",
+    "narrationStyle": "Professional",
+    "audience": "College Students",
+    "language": "English",
+    "subtitles": false,
+    "backgroundMusic": false,
+    "transitions": "Fade",
+    "aspectRatio": "16:9"
+  }
+}

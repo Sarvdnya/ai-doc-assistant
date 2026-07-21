@@ -3,6 +3,7 @@ import path from "path";
 import Chunk from "../models/Chunk.model.js";
 import DocumentModel from "../models/Document.model.js";
 import { generateText } from "./llm.service.js";
+import type { VideoSettings } from "./director.service.js";
 
 const MAX_PROMPT_CHARS = 4_000;
 const MAX_CONTENT_CHARS = 2_500;
@@ -22,6 +23,31 @@ export interface Overview {
   learningObjectives?: string[];
   duration: string;
   scenes: OverviewScene[];
+}
+
+interface SavedOverview {
+  documentId: string;
+  overview: Overview;
+  settings?: VideoSettings;
+}
+
+function overviewPath(documentId: string): string {
+  return path.resolve(import.meta.dirname, "../..", "generated", documentId, "metadata", "overview.json");
+}
+
+async function readSavedOverview(documentId: string, settings?: VideoSettings): Promise<Overview | null> {
+  try {
+    const saved = JSON.parse(await fs.readFile(overviewPath(documentId), "utf-8")) as SavedOverview;
+    if (saved.documentId === documentId && saved.overview?.scenes?.length && JSON.stringify(saved.settings ?? {}) === JSON.stringify(settings ?? {})) {
+      console.log("[RESUME] Overview exists");
+      return saved.overview;
+    }
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
+      console.warn("[RESUME] Ignoring unreadable saved overview");
+    }
+  }
+  return null;
 }
 
 function splitToLimit(text: string, limit: number): string[] {
@@ -88,12 +114,14 @@ Maximum 300 words.
 ${text}`;
 }
 
-function finalOverviewPrompt(text: string): string {
+function finalOverviewPrompt(text: string, settings: VideoSettings = {}): string {
+  const sceneCount = settings.sceneCount ?? 8;
+  const duration = settings.duration ?? "90 seconds";
   return `Using the study note below, create JSON only.
 
 {
 "title":"",
-"duration":"90 seconds",
+"duration":"${duration}",
 "scenes":[
 {
 "scene":1,
@@ -106,8 +134,10 @@ function finalOverviewPrompt(text: string): string {
 
 Rules:
 
-- 8 scenes only
-- narration <= 20 words
+- exactly ${sceneCount} scenes
+- total video duration must be approximately ${duration}
+- narration must be ${settings.narrationStyle ?? "Professional"} and appropriate for ${settings.audience ?? "College Students"}
+- narration must be in ${settings.language ?? "English"}
 - visual <= 15 words
 - simple educational visuals
 - no markdown
@@ -178,7 +208,10 @@ function parseOverview(text: string): Overview {
   }
 }
 
-export async function generateOverview(documentId: string): Promise<Overview> {
+export async function generateOverview(documentId: string, settings: VideoSettings = {}): Promise<Overview> {
+  const savedOverview = await readSavedOverview(documentId, settings);
+  if (savedOverview) return savedOverview;
+
   console.log("[OVERVIEW] Loading document");
   const document = await DocumentModel.findById(documentId).lean();
   if (!document) throw new Error(`Document not found (requestedId: ${documentId})`);
@@ -204,8 +237,14 @@ export async function generateOverview(documentId: string): Promise<Overview> {
 
   const condensedDocument = await condenseSummaries(summaries);
   console.log("[OVERVIEW] Generating final overview");
-  const finalResponses = await generateFromText(condensedDocument, finalOverviewPrompt);
+  const finalResponses = await generateFromText(condensedDocument, (part) => finalOverviewPrompt(part, settings));
   const overview = parseOverview(finalResponses[0] ?? "");
+  const outputPath = overviewPath(documentId);
+  await fs.mkdir(path.dirname(outputPath), { recursive: true });
+  const temporaryOverviewPath = `${outputPath}.tmp`;
+  await fs.writeFile(temporaryOverviewPath, JSON.stringify({ documentId, overview, settings }, null, 2));
+  await fs.rename(temporaryOverviewPath, outputPath);
+  console.log(`[OVERVIEW] Saved: ${outputPath}`);
   console.log(`[OVERVIEW] Generated "${overview.title}" with ${overview.scenes?.length ?? 0} scenes`);
   return overview;
 }

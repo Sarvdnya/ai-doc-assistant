@@ -1,0 +1,89 @@
+{
+  "documentId": "6a5dc947a13320c20edae80f",
+  "title": "The Himalayas: Geology, Geography, and Culture",
+  "duration": "90 seconds",
+  "sceneCount": 8,
+  "scenes": [
+    {
+      "scene": 1,
+      "title": "The Himalayas: Geology, Geography, and Culture",
+      "duration": 11,
+      "narration": "The Himalayas, spanning 2,400 kilometers, contain Earth's highest peaks, including the mighty Mount Everest.",
+      "visual": "A map highlighting the 2,400 km Himalayan range across South Asia.",
+      "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 1: A map highlighting the 2,400 km Himalayan range across South Asia.. Narration context: \"The Himalayas, spanning 2,400 kilometers, contain Earth's highest peaks, including the mighty Mount Everest.\"",
+      "imagePath": "generated/images/scene-01.png",
+      "audioPath": "generated/audio/scene-01.mp3"
+    },
+    {
+      "scene": 2,
+      "title": "The Himalayas: Geology, Geography, and Culture",
+      "duration": 11,
+      "narration": "They formed millions of years ago when the Indian tectonic plate crashed into the Eurasian plate, uplifting the land.",
+      "visual": "Simple 3D animation of Indian and Eurasian plates colliding, pushing mountains upward.",
+      "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 2: Simple 3D animation of Indian and Eurasian plates colliding, pushing mountains upward.. Narration context: \"They formed millions of years ago when the Indian tectonic plate crashed into the Eurasian plate, uplifting the land.\"",
+      "imagePath": "generated/images/scene-02.png",
+      "audioPath": "generated/audio/scene-02.mp3"
+    },
+    {
+      "scene": 3,
+      "title": "The Himalayas: Geology, Geography, and Culture",
+      "duration": 11,
+      "narration": "The range is anchored by Nanga Parbat in the west and Namcha Barwa in the far east.",
+      "visual": "A map showing Nanga Parbat on the left and Namcha Barwa on the right.",
+      "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 3: A map showing Nanga Parbat on the left and Namcha Barwa on the right.. Narration context: \"The range is anchored by Nanga Parbat in the west and Namcha Barwa in the far east.\"",
+      "imagePath": "generated/images/scene-03.png",
+      "audioPath": "generated/audio/scene-03.mp3"
+    },
+    {
+      "scene": 4,
+      "title": "The Himalayas: Geology, Geography, and Culture",
+      "duration": 11,
+      "narration": "This massive range spans five nations: Nepal, India, China, Bhutan, and Pakistan, crossing complex borders.",
+      "visual": "A color-coded map showing the five nations sharing the Himalayan range.",
+      "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 4: A color-coded map showing the five nations sharing the Himalayan range.. Narration context: \"This massive range spans five nations: Nepal, India, China, Bhutan, and Pakistan, crossing complex borders.\"",
+      "imagePath": "generated/images/scene-04.png",
+      "audioPath": "generated/audio/scene-04.mp3"
+    },
+    {
+      "scene": 5,
+      "title": "The Himalayas: Geology, Geography, and Culture",
+      "duration": 12,
+      "narration": "The glaciers feed major rivers like the Indus, Ganges, and Brahmaputra, vital for millions of people.",
+      "visual": "Map highlighting the flow of the Indus, Ganges, and Brahmaputra rivers.",
+      "imagePrompt": "clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 5: Map highlighting the flow of the Indus, Ganges, and Brahmaputra rivers.. Narration context: \"The glaciers feed major rivers like the Indus, Ganges, and Brahmaputra, vital for millions of people.\"",
+      "imagePath": "generated/images/scene-05.png",
+      "audioPath": "generated/audio/scene-05.mp3"
+    },
+    {
+      "scene": 6,
+      "title": "The Himalayas: Geology, Geography, and Culture",
+      "duration": 11,
+      "narration": "While 53 million people live in the mountains, their river basins support over 600 million people.",
+      "visual": "Infographic showing 53 million mountain residents versus 600 million in basins.",
+      "imagePrompt": "clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 6: Infographic showing 53 million mountain residents versus 600 million in basins.. Narration context: \"While 53 million people live in the mountains, their river basins support over 600 million people.\"",
+      "imagePath": "generated/images/scene-06.png",
+      "audioPath": "generated/audio/scene-06.mp3"
+    },
+    {
+      "scene": 7,
+      "title": "The Himalayas: Geology, Geography, and Culture",
+      "duration": 11,
+      "narration": "For Hindus and Buddhists, these mountains are sacred, with peaks like Mount Kailash remaining entirely off-limits to climbers.",
+      "visual": "Graphic of Mount Kailash with spiritual icons representing Hinduism and Buddhism.",
+      "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 7: Graphic of Mount Kailash with spiritual icons representing Hinduism and Buddhism.. Narration context: \"For Hindus and Buddhists, these mountains are sacred, with peaks like Mount Kailash remaining entirely off-limits to climbers.\"",
+      "imagePath": "generated/images/scene-07.png",
+      "audioPath": "generated/audio/scene-07.mp3"
+    },
+    {
+      "scene": 8,
+      "title": "The Himalayas: Geology, Geography, and Culture",
+      "duration": 12,
+      "narration": "The Himalayas remain a powerful force, shaping Earth's geography, water systems, and diverse spiritual cultures.",
+      "visual": "Panoramic view of the Himalayan range fading to an educational summary slide.",
+      "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 8: Panoramic view of the Himalayan range fading to an educational summary slide.. Narration context: \"The Himalayas remain a powerful force, shaping Earth's geography, water systems, and diverse spiritual cultures.\"",
+      "imagePath": "generated/images/scene-08.png",
+      "audioPath": "generated/audio/scene-08.mp3"
+    }
+  ],
+  "generatedAt": "2026-07-20T07:10:33.446Z"
+}

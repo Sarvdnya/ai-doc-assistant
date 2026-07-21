@@ -6,6 +6,14 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.dirname(fileURLToPath(import.meta.url)),
   },
+  async rewrites() {
+    return [
+      {
+        source: "/generated/:path*",
+        destination: "http://localhost:5000/generated/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;

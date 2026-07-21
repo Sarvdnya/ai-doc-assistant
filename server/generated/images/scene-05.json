@@ -1,9 +1,0 @@
-{
-  "scene": 5,
-  "title": "Earthquake Safety and Preparedness Guide",
-  "duration": 9,
-  "narration": "Secure your home by fastening heavy bookcases to walls and locking cabinet doors. Even minor retrofits dramatically reduce building collapse risks.",
-  "visual": "2D illustration of a hand securing a bookshelf bracket to a wall and placing latches on drawers.",
-  "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 5: 2D illustration of a hand securing a bookshelf bracket to a wall and placing latches on drawers.. Narration context: \"Secure your home by fastening heavy bookcases to walls and locking cabinet doors. Even minor retrofits dramatically reduce building collapse risks.\"",
-  "imagePath": "generated/images/scene-05.png"
-}

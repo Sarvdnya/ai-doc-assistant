@@ -1,0 +1,34 @@
+{
+  "documentId": "6a5f1e1453592403f48b599d",
+  "overview": {
+    "title": "Retenzy: Maximizing E-commerce Customer Retention",
+    "duration": "15 seconds",
+    "scenes": [
+      {
+        "scene": 1,
+        "duration": "7 sec",
+        "narration": "Retenzy is an all-in-one Shopify platform that boosts Customer Lifetime Value using integrated loyalty rewards and referrals.",
+        "visual": "A digital diagram showing customer repeat purchases connected to loyalty points and referral bonuses."
+      },
+      {
+        "scene": 2,
+        "duration": "8 sec",
+        "narration": "With no-code widgets and automated reviews, it seamlessly drives social proof and improves search visibility.",
+        "visual": "An interface showcasing easy drag-and-drop rewards widgets and automated customer review stars."
+      }
+    ]
+  },
+  "settings": {
+    "duration": "15 seconds",
+    "sceneCount": 2,
+    "imageStyle": "Educational Illustration",
+    "voice": "Female",
+    "narrationStyle": "Professional",
+    "audience": "College Students",
+    "language": "English",
+    "subtitles": false,
+    "backgroundMusic": false,
+    "transitions": "Fade",
+    "aspectRatio": "16:9"
+  }
+}

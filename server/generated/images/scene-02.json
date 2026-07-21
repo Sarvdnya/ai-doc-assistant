@@ -1,9 +1,0 @@
-{
-  "scene": 2,
-  "title": "Earthquake Safety and Preparedness Guide",
-  "duration": 9,
-  "narration": "Most damage and injuries occur due to poor building construction, unsafe locations, and a lack of preparation for securing heavy interior objects.",
-  "visual": "Flat 3D graphic showing a building shaking, highlighting weak foundations and loose furniture inside.",
-  "imagePrompt": "No humans. clean flat 3D illustration, minimal, white background, soft shadows, blue accent colors, educational infographic, high quality. Scene 2: Flat 3D graphic showing a building shaking, highlighting weak foundations and loose furniture inside.. Narration context: \"Most damage and injuries occur due to poor building construction, unsafe locations, and a lack of preparation for securing heavy interior objects.\"",
-  "imagePath": "generated/images/scene-02.png"
-}

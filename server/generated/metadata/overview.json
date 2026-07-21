@@ -1,0 +1,57 @@
+{
+  "documentId": "6a5dca8171488a645ed44dd3",
+  "overview": {
+    "title": "Earthquakes: Causes, Measurement, and Hazards",
+    "duration": "90 seconds",
+    "scenes": [
+      {
+        "scene": 1,
+        "duration": "12 sec",
+        "narration": "Earthquakes are powerful shakes caused by tectonic plates shifting, colliding, or sliding along underground fault lines.",
+        "visual": "2D diagram of two tectonic plates sliding past each other, building stress."
+      },
+      {
+        "scene": 2,
+        "duration": "11 sec",
+        "narration": "Underground, energy releases at the hypocenter. Directly above on the surface is the epicenter.",
+        "visual": "Cross-section of Earth showing underground hypocenter and surface epicenter labeled clearly."
+      },
+      {
+        "scene": 3,
+        "duration": "11 sec",
+        "narration": "A seismic sequence includes smaller foreshocks, the main earthquake, and weaker aftershocks that can last for years.",
+        "visual": "Timeline graphic showing seismic wave peaks: foreshock, large mainshock, and smaller aftershocks."
+      },
+      {
+        "scene": 4,
+        "duration": "11 sec",
+        "narration": "Seismologists detect and record these underground ground vibrations using sensitive instruments called seismometers.",
+        "visual": "Simple 3D animation of a seismometer drawing squiggly lines on a paper roll."
+      },
+      {
+        "scene": 5,
+        "duration": "11 sec",
+        "narration": "Scientists once used the Richter scale, but now prefer the moment magnitude scale to measure total energy.",
+        "visual": "Split-screen comparison showing 'Richter Scale' vs 'Moment Magnitude Scale' with bold text."
+      },
+      {
+        "scene": 6,
+        "duration": "11 sec",
+        "narration": "Ground shaking is the primary hazard, directly destroying critical infrastructure like buildings, roads, and bridges.",
+        "visual": "Minimalist 2D animation of a bridge and building shaking during a tremor."
+      },
+      {
+        "scene": 7,
+        "duration": "11 sec",
+        "narration": "Shaking also triggers secondary disasters, including dangerous landslides, raging fires, and giant ocean tsunamis.",
+        "visual": "Split icon graphic showing a landslide, a fire flame, and a tsunami wave."
+      },
+      {
+        "scene": 8,
+        "duration": "12 sec",
+        "narration": "Understanding earthquakes helps us prepare, build safer structures, and save lives during seismic events.",
+        "visual": "A modern, earthquake-resistant building standing strong next to a 'Be Prepared' icon."
+      }
+    ]
+  }
+}
