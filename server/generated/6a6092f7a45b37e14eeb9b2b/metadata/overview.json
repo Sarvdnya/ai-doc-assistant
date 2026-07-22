@@ -1,0 +1,46 @@
+{
+  "documentId": "6a6092f7a45b37e14eeb9b2b",
+  "overview": {
+    "title": "Retenzy: Maximizing E-commerce Customer Retention",
+    "duration": "45 seconds",
+    "scenes": [
+      {
+        "scene": 1,
+        "duration": "11 sec",
+        "narration": "Founded in 2023, Retenzy is an all-in-one platform designed for Shopify e-commerce brands to optimize Customer Lifetime Value by turning one-time buyers into loyal advocates.",
+        "visual": "A smartphone showing a Shopify store transitioning a shopper into a VIP loyal member."
+      },
+      {
+        "scene": 2,
+        "duration": "11 sec",
+        "narration": "The platform integrates loyalty programs and referrals, allowing merchants to create custom tiered VIP memberships, reward points, and referral networks that drive organic brand growth.",
+        "visual": "An infographic displaying points, VIP tiers, and referral links connecting different users."
+      },
+      {
+        "scene": 3,
+        "duration": "11 sec",
+        "narration": "Retenzy automates social proof by collecting photo and video reviews via email and SMS, which seamlessly sync with Google Shopping to boost search engine visibility.",
+        "visual": "A laptop screen showcasing product reviews syncing automatically with Google search results."
+      },
+      {
+        "scene": 4,
+        "duration": "12 sec",
+        "narration": "With over fifteen pre-built, no-code widgets and automated email flows, Retenzy simplifies retention marketing, helping merchants easily scale their customer engagement.",
+        "visual": "A dashboard showing drag-and-drop widgets and automated email flowcharts."
+      }
+    ]
+  },
+  "settings": {
+    "duration": "45 seconds",
+    "sceneCount": 4,
+    "imageStyle": "Educational Illustration",
+    "voice": "female",
+    "narrationStyle": "Professional",
+    "audience": "College Students",
+    "language": "English",
+    "subtitles": false,
+    "backgroundMusic": false,
+    "transitions": "Fade",
+    "aspectRatio": "16:9"
+  }
+}

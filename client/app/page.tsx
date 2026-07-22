@@ -8,6 +8,7 @@ import DocumentList from "@/components/document/DocumentList";
 import ChatPanel from "@/components/chat/ChatPanel";
 import UploadDropzone from "@/components/upload/UploadDropzone";
 import { GenerateOverviewButton } from "@/components/video/GenerateOverviewButton";
+import VideoProgress from "@/components/video/VideoProgress";
 import ProgressStepper from "@/components/ui/ProgressStepper";
 
 import type { DocumentFile } from "@/components/document/types";
@@ -46,8 +47,9 @@ export default function Dashboard() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isLoadingDocuments, setIsLoadingDocuments] = useState(true);
   const [documentsError, setDocumentsError] = useState<string | null>(null);
-  const [directorGenerating, setDirectorGenerating] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
   const [cacheBust, setCacheBust] = useState(0);
+  const [liveStepIndex, setLiveStepIndex] = useState(-1);
 
   const selectedDocument = useMemo(() => {
     if (!selectedId) return null;
@@ -159,6 +161,40 @@ export default function Dashboard() {
     [selectedId]
   );
 
+  const handlePreviewVideo = useCallback(async () => {
+    try {
+      const docs = await getDocuments();
+      if (docs.length) setDocuments(docs);
+    } catch {}
+    setCacheBust((k) => k + 1);
+    setLiveStepIndex(-1);
+    setIsGenerating(false);
+  }, []);
+
+  const handleGenerationStart = useCallback(() => {
+    setIsGenerating(true);
+    setLiveStepIndex(1);
+  }, []);
+
+  const handleGenerationError = useCallback((_message: string) => {
+    setIsGenerating(false);
+    setLiveStepIndex(-1);
+  }, []);
+
+  const handleStepChange = useCallback((step: string) => {
+    const map: Record<string, number> = {
+      extracting: 1,
+      overview: 2,
+      images: 3,
+      audio: 4,
+      clips: 5,
+      rendering: 5,
+      completed: 6,
+    };
+    const idx = map[step];
+    if (idx !== undefined) setLiveStepIndex(idx);
+  }, []);
+
   /* Initial load on mount */
   useEffect(() => {
     const loadTimer = window.setTimeout(() => {
@@ -197,7 +233,7 @@ export default function Dashboard() {
       <div className="space-y-6 h-full flex flex-col">
         <UploadDropzone onUploadSuccess={loadDocuments} />
 
-        <ProgressStepper document={selectedDocument} />
+        <ProgressStepper document={selectedDocument} liveStepIndex={liveStepIndex} />
 
         <div className="flex flex-1 gap-6 min-h-0">
           <DocumentList
@@ -226,10 +262,17 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                <div className="flex-1 glass-card p-6 flex flex-col gap-5">
-                  {videoDisplay ? (
+                <div className="flex-1 glass-card p-6 flex flex-col">
+                  {isGenerating ? (
+                    <VideoProgress
+                      documentId={selectedDocument._id}
+                      onPreview={handlePreviewVideo}
+                      onError={handleGenerationError}
+                      onStepChange={handleStepChange}
+                    />
+                  ) : videoDisplay ? (
                     <>
-                      <div className="flex items-start justify-between flex-shrink-0">
+                      <div className="flex items-start justify-between mb-4 flex-shrink-0">
                         <div className="space-y-1">
                           <h3 className="text-xl font-bold text-[var(--text-primary)] flex items-center gap-2">
                             <Film
@@ -266,7 +309,7 @@ export default function Dashboard() {
                         </div>
                       </div>
 
-                      <div className="flex gap-3 flex-wrap flex-shrink-0">
+                      <div className="flex gap-3 flex-wrap mt-5 flex-shrink-0">
                         <button
                           onClick={handleDownload}
                           className="flex items-center gap-2 bg-[var(--color-primary)] text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:scale-105 active:scale-95 transition-all shadow-lg shadow-[rgba(var(--color-primary-rgb),0.25)]"
@@ -281,12 +324,13 @@ export default function Dashboard() {
                         <GenerateOverviewButton
                           documentId={selectedDocument._id}
                           onVideoGenerated={handleVideoGenerated}
-                          disabled={directorGenerating}
+                          disabled={isGenerating}
+                          onGenerationStart={handleGenerationStart}
                         />
                       </div>
                     </>
                   ) : (
-                    <div className="flex-1 flex items-center justify-center">
+                    <div className="flex-1 flex flex-col items-center justify-center gap-5">
                       <div className="space-y-4 text-center">
                         <div
                           className="w-10 h-10 rounded-xl flex items-center justify-center mx-auto"
@@ -307,12 +351,13 @@ export default function Dashboard() {
                             No video generated yet.
                           </p>
                         </div>
-                        <GenerateOverviewButton
-                          documentId={selectedDocument._id}
-                          onVideoGenerated={handleVideoGenerated}
-                          disabled={directorGenerating}
-                        />
                       </div>
+                      <GenerateOverviewButton
+                        documentId={selectedDocument._id}
+                        onVideoGenerated={handleVideoGenerated}
+                        disabled={isGenerating}
+                        onGenerationStart={handleGenerationStart}
+                      />
                     </div>
                   )}
                 </div>
@@ -342,7 +387,7 @@ export default function Dashboard() {
           <div className="w-[420px] flex-shrink-0">
             <ChatPanel
               documentId={selectedDocument?._id}
-              onGenerationStateChange={setDirectorGenerating}
+              onGenerationStateChange={setIsGenerating}
               onVideoGenerated={() => void loadDocuments()}
             />
           </div>

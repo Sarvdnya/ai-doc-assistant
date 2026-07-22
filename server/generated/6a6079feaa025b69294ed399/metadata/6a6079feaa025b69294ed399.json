@@ -1,0 +1,32 @@
+{
+  "documentId": "6a6079feaa025b69294ed399",
+  "title": "Introducción a Retenzy",
+  "duration": "10 seconds",
+  "sceneCount": 1,
+  "scenes": [
+    {
+      "scene": 1,
+      "title": "Introducción a Retenzy",
+      "duration": 10,
+      "narration": "Retenzy optimiza el valor del cliente en Shopify integrando lealtad, reseñas y referidos en una sola plataforma.",
+      "visual": "Diagrama simple que conecta programas de lealtad, reseñas y referidos en Shopify.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 1: Diagrama simple que conecta programas de lealtad, reseñas y referidos en Shopify.. Narration context: \"Retenzy optimiza el valor del cliente en Shopify integrando lealtad, reseñas y referidos en una sola plataforma.\"",
+      "imagePath": "generated/6a6079feaa025b69294ed399/images/scene-01.jpg",
+      "audioPath": "generated/6a6079feaa025b69294ed399/audio/scene-01.mp3"
+    }
+  ],
+  "settings": {
+    "duration": "10 seconds",
+    "sceneCount": 1,
+    "imageStyle": "Educational Illustration",
+    "voice": "female",
+    "narrationStyle": "Professional",
+    "audience": "College Students",
+    "language": "Spanish",
+    "subtitles": false,
+    "backgroundMusic": false,
+    "transitions": "Fade",
+    "aspectRatio": "16:9"
+  },
+  "generatedAt": "2026-07-22T08:09:29.886Z"
+}

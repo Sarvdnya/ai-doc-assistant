@@ -9,15 +9,18 @@ export function GenerateOverviewButton({
   documentId,
   onVideoGenerated,
   disabled = false,
+  onGenerationStart,
 }: {
   documentId: string;
   onVideoGenerated: (result: VideoGenerationResult) => void;
   disabled?: boolean;
+  onGenerationStart?: () => void;
 }) {
   const [loading, setLoading] = useState(false);
 
   const handleGenerate = async () => {
     setLoading(true);
+    onGenerationStart?.();
     try {
       const result = await generateOverviewVideo(
         documentId,

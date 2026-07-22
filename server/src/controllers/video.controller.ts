@@ -3,6 +3,7 @@ import path from "path";
 import type { Request, Response } from "express";
 import mongoose from "mongoose";
 import { runVideoPipeline } from "../services/videoPipeline.service.js";
+import { sseManager } from "../services/sse.service.js";
 
 const GENERATED_DIR = path.resolve(import.meta.dirname, "..", "..", "generated");
 const PORT = process.env.PORT ?? "5000";
@@ -27,7 +28,11 @@ export async function generateVideo(
 
   try {
     console.log("[VIDEO] Starting pipeline");
-    const project = await runVideoPipeline(documentId, { force: force === true, settings });
+    const project = await runVideoPipeline(documentId, {
+      force: force === true,
+      settings,
+      onStepProgress: (progress) => sseManager.emitProgress(documentId, progress),
+    });
     console.log("[VIDEO] Pipeline request completed");
 
     const outputPath = path.join(GENERATED_DIR, documentId, "output", "overview.mp4");

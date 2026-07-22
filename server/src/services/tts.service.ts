@@ -131,11 +131,12 @@ export async function generateNarration(documentId: string, scene: NarrationScen
 export async function generateNarrations<T extends NarrationScene>(
   documentId: string,
   scenes: T[],
-  options: { force?: boolean; voice?: string } = {}
+  options: { force?: boolean; voice?: string; onProgress?: (current: number, total: number) => void } = {}
 ): Promise<Array<T & NarrationResult>> {
   const updatedScenes: Array<T & NarrationResult> = [];
 
   for (const [index, scene] of scenes.entries()) {
+    options.onProgress?.(index + 1, scenes.length);
     console.log(`[AUDIO] Scene ${index + 1}/${scenes.length}`);
     console.log("[TTS] Generating narration");
     const narration = await generateNarration(documentId, scene, options);

@@ -1,0 +1,32 @@
+{
+  "documentId": "6a60784d6a5825501a605e3d",
+  "title": "Retenzy Platform Overview",
+  "duration": "10 seconds",
+  "sceneCount": 1,
+  "scenes": [
+    {
+      "scene": 1,
+      "title": "Retenzy Platform Overview",
+      "duration": 10,
+      "narration": "रिटेंझी हे रिवॉर्ड्स, रिव्ह्यूज आणि रेफरल्स एकत्र करून शॉपिफाय ब्रँड्ससाठी ग्राहक टिकवून ठेवण्यास आणि ब्रँड निष्ठा वाढवण्यास मदत करते.",
+      "visual": "Infographic showing Retenzy connecting Rewards, Reviews, and Referrals to a Shopify store.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 1: Infographic showing Retenzy connecting Rewards, Reviews, and Referrals to a Shopify store.. Narration context: \"रिटेंझी हे रिवॉर्ड्स, रिव्ह्यूज आणि रेफरल्स एकत्र करून शॉपिफाय ब्रँड्ससाठी ग्राहक टिकवून ठेवण्यास आणि ब्रँड निष्ठा वाढवण्यास मदत करते.\"",
+      "imagePath": "generated/6a60784d6a5825501a605e3d/images/scene-01.jpg",
+      "audioPath": "generated/6a60784d6a5825501a605e3d/audio/scene-01.mp3"
+    }
+  ],
+  "settings": {
+    "duration": "10 seconds",
+    "sceneCount": 1,
+    "imageStyle": "Educational Illustration",
+    "voice": "female",
+    "narrationStyle": "Professional",
+    "audience": "College Students",
+    "language": "Marathi",
+    "subtitles": false,
+    "backgroundMusic": false,
+    "transitions": "Fade",
+    "aspectRatio": "16:9"
+  },
+  "generatedAt": "2026-07-22T08:04:42.453Z"
+}

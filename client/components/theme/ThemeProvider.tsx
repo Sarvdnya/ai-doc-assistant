@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useContext, useState, useCallback, useEffect } from "react";
 
 export type Theme = "light" | "dark";
 
@@ -18,24 +18,29 @@ export const useTheme = () => useContext(ThemeContext);
 
 const STORAGE_KEY = "apple-theme";
 
-function getInitialTheme(): Theme {
-  if (typeof window === "undefined") return "dark";
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored === "light" || stored === "dark") return stored;
-  } catch {}
-  return window.matchMedia("(prefers-color-scheme: light)").matches
-    ? "light"
-    : "dark";
-}
-
 function applyThemeClass(t: Theme) {
   document.documentElement.classList.toggle("theme-light", t === "light");
   document.documentElement.classList.toggle("theme-dark", t === "dark");
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(getInitialTheme);
+  const [theme, setThemeState] = useState<Theme>("dark");
+
+  useEffect(() => {
+    let stored: Theme = "dark";
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw === "light" || raw === "dark") {
+        stored = raw;
+      } else {
+        stored = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      }
+    } catch {
+      stored = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    }
+    setThemeState(stored);
+    applyThemeClass(stored);
+  }, []);
 
   const toggleTheme = useCallback(() => {
     setThemeState((prev) => {

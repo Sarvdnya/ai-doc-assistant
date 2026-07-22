@@ -141,7 +141,7 @@ async function generateImage(prompt: string): Promise<{ buffer: Buffer; ext: str
 export async function generateSceneImages<T extends SceneInput>(
   documentId: string,
   scenes: T[],
-  options: { force?: boolean } = {}
+  options: { force?: boolean; onProgress?: (current: number, total: number) => void } = {}
 ): Promise<Array<T & { imagePath: string }>> {
   const dir = imagesDir(documentId);
   await fs.mkdir(dir, { recursive: true });
@@ -150,6 +150,7 @@ export async function generateSceneImages<T extends SceneInput>(
 
   const updatedScenes: Array<T & { imagePath: string }> = [];
   for (const [index, scene] of scenes.entries()) {
+    options.onProgress?.(index + 1, scenes.length);
     const scenePrefix = `scene-${String(scene.scene).padStart(2, "0")}`;
     console.log(`[IMAGE] Scene ${index + 1}/${scenes.length}`);
     if (!options.force) {

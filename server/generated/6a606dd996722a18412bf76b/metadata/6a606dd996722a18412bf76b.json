@@ -1,0 +1,32 @@
+{
+  "documentId": "6a606dd996722a18412bf76b",
+  "title": "Retenzy: Shopify Customer Retention Platform",
+  "duration": "10 seconds",
+  "sceneCount": 1,
+  "scenes": [
+    {
+      "scene": 1,
+      "title": "Retenzy: Shopify Customer Retention Platform",
+      "duration": 10,
+      "narration": "Retenzy एक Shopify प्लेटफॉर्म है जो loyalty rewards, referrals, और reviews को मिलाकर, e-commerce brands के customer retention और LTV को बढ़ाता है।",
+      "visual": "Animated graphic showing Shopify store connected to Loyalty, Referrals, and Reviews icons boosting LTV.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 1: Animated graphic showing Shopify store connected to Loyalty, Referrals, and Reviews icons boosting LTV.. Narration context: \"Retenzy एक Shopify प्लेटफॉर्म है जो loyalty rewards, referrals, और reviews को मिलाकर, e-commerce brands के customer retention और LTV को बढ़ाता है।\"",
+      "imagePath": "generated/6a606dd996722a18412bf76b/images/scene-01.jpg",
+      "audioPath": "generated/6a606dd996722a18412bf76b/audio/scene-01.mp3"
+    }
+  ],
+  "settings": {
+    "duration": "10 seconds",
+    "sceneCount": 1,
+    "imageStyle": "Educational Illustration",
+    "voice": "female",
+    "narrationStyle": "Professional",
+    "audience": "College Students",
+    "language": "Hindi",
+    "subtitles": false,
+    "backgroundMusic": false,
+    "transitions": "Fade",
+    "aspectRatio": "16:9"
+  },
+  "generatedAt": "2026-07-22T07:50:48.227Z"
+}

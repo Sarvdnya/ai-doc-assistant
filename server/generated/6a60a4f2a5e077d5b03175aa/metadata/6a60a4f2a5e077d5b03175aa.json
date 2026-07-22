@@ -1,0 +1,62 @@
+{
+  "documentId": "6a60a4f2a5e077d5b03175aa",
+  "title": "Retenzy Customer Retention Platform",
+  "duration": "45 seconds",
+  "sceneCount": 4,
+  "scenes": [
+    {
+      "scene": 1,
+      "title": "Retenzy Customer Retention Platform",
+      "duration": 11,
+      "narration": "In the competitive e-commerce landscape, Retenzy, founded in 2023, helps Shopify brands maximize Customer Lifetime Value.",
+      "visual": "Simple diagram showing Shopify logo connecting to Retenzy platform icon.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 1: Simple diagram showing Shopify logo connecting to Retenzy platform icon.. Narration context: \"In the competitive e-commerce landscape, Retenzy, founded in 2023, helps Shopify brands maximize Customer Lifetime Value.\"",
+      "imagePath": "generated/6a60a4f2a5e077d5b03175aa/images/scene-01.jpg",
+      "audioPath": "generated/6a60a4f2a5e077d5b03175aa/audio/scene-01.mp3"
+    },
+    {
+      "scene": 2,
+      "title": "Retenzy Customer Retention Platform",
+      "duration": 11,
+      "narration": "The platform drives loyalty using gamified points systems, custom milestones, and structured VIP membership tiers.",
+      "visual": "Graphic of a user earning points and unlocking a VIP tier badge.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 2: Graphic of a user earning points and unlocking a VIP tier badge.. Narration context: \"The platform drives loyalty using gamified points systems, custom milestones, and structured VIP membership tiers.\"",
+      "imagePath": "generated/6a60a4f2a5e077d5b03175aa/images/scene-02.jpg",
+      "audioPath": "generated/6a60a4f2a5e077d5b03175aa/audio/scene-02.mp3"
+    },
+    {
+      "scene": 3,
+      "title": "Retenzy Customer Retention Platform",
+      "duration": 11,
+      "narration": "To build trust, Retenzy automates review collection via email and SMS, syncing verified reviews with Google Shopping.",
+      "visual": "Animated smartphone showing a customer review syncing to a Google search result.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 3: Animated smartphone showing a customer review syncing to a Google search result.. Narration context: \"To build trust, Retenzy automates review collection via email and SMS, syncing verified reviews with Google Shopping.\"",
+      "imagePath": "generated/6a60a4f2a5e077d5b03175aa/images/scene-03.jpg",
+      "audioPath": "generated/6a60a4f2a5e077d5b03175aa/audio/scene-03.mp3"
+    },
+    {
+      "scene": 4,
+      "title": "Retenzy Customer Retention Platform",
+      "duration": 12,
+      "narration": "Finally, fifteen pre-built no-code widgets and built-in marketing flows make integration seamless for store owners.",
+      "visual": "Dashboard displaying pre-built widgets and automated email campaign templates.",
+      "imagePrompt": "No humans. Educational Illustration. Designed for College Students, 16:9 composition. Scene 4: Dashboard displaying pre-built widgets and automated email campaign templates.. Narration context: \"Finally, fifteen pre-built no-code widgets and built-in marketing flows make integration seamless for store owners.\"",
+      "imagePath": "generated/6a60a4f2a5e077d5b03175aa/images/scene-04.jpg",
+      "audioPath": "generated/6a60a4f2a5e077d5b03175aa/audio/scene-04.mp3"
+    }
+  ],
+  "settings": {
+    "duration": "45 seconds",
+    "sceneCount": 4,
+    "imageStyle": "Educational Illustration",
+    "voice": "female",
+    "narrationStyle": "Professional",
+    "audience": "College Students",
+    "language": "English",
+    "subtitles": false,
+    "backgroundMusic": false,
+    "transitions": "Fade",
+    "aspectRatio": "16:9"
+  },
+  "generatedAt": "2026-07-22T11:21:59.266Z"
+}

@@ -4,6 +4,7 @@ import type { DocumentFile } from "@/components/document/types";
 
 interface ProgressStepperProps {
   document: DocumentFile | null;
+  liveStepIndex?: number;
 }
 
 const steps = [
@@ -33,8 +34,8 @@ function getCurrentStep(doc: DocumentFile | null): number {
   return 6;
 }
 
-export default function ProgressStepper({ document }: ProgressStepperProps) {
-  const currentStep = getCurrentStep(document);
+export default function ProgressStepper({ document, liveStepIndex }: ProgressStepperProps) {
+  const currentStep = liveStepIndex !== undefined && liveStepIndex >= 0 ? liveStepIndex : getCurrentStep(document);
 
   return (
     <div

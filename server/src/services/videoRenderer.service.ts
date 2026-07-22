@@ -343,7 +343,7 @@ export async function combineScenes(documentId: string, clips: string[], duratio
 }
 
 /** Builds the final MP4 exclusively from existing scene videos and narration files. */
-export async function renderVideo(documentId: string, project: RenderProject, force = false): Promise<RenderedVideo> {
+export async function renderVideo(documentId: string, project: RenderProject, force = false, onProgress?: (current: number, total: number) => void): Promise<RenderedVideo> {
   if (!project.scenes.length) throw new Error("Project has no scenes to render");
 
   console.log("[VIDEO] Using NEW renderer");
@@ -355,6 +355,7 @@ export async function renderVideo(documentId: string, project: RenderProject, fo
   const durations: number[] = [];
 
   for (const [index, scene] of project.scenes.entries()) {
+    onProgress?.(index + 1, project.scenes.length);
     const renderedScene = await renderScene(documentId, scene, index, project.scenes.length, project.settings);
     clips.push(renderedScene.clipPath);
     durations.push(renderedScene.duration);

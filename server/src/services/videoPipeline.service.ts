@@ -9,6 +9,14 @@ import { generateNarrations } from "./tts.service.js";
 import { renderVideo } from "./videoRenderer.service.js";
 import { resolveVideoSettings, type VideoSettings } from "./director.service.js";
 
+export interface StepProgress {
+  step: string;
+  status: "running" | "completed" | "failed";
+  current?: number;
+  total?: number;
+  message?: string;
+}
+
 const GENERATED_DIR = path.resolve(import.meta.dirname, "../..", "generated");
 
 function docDir(documentId: string, ...subdirs: string[]): string {
@@ -62,6 +70,7 @@ export interface ResumeProject {
   force?: boolean;
   settings?: VideoSettings;
   onProgress?: (message: string) => void;
+  onStepProgress?: (progress: StepProgress) => void;
 }
 
 interface SavedStoryboard extends VideoProject {
@@ -144,6 +153,8 @@ export async function resumePipeline(project: ResumeProject): Promise<VideoProje
   const document = await DocumentModel.findById(documentId);
   if (!document) throw new Error(`Document not found (requestedId: ${documentId})`);
   project.onProgress?.("✓ Reading PDF");
+  project.onStepProgress?.({ step: "extracting", status: "running" });
+  project.onStepProgress?.({ step: "extracting", status: "completed" });
 
   const dirs = ["images", "audio", "scripts", "output", "output/scene-clips", "metadata"].map((d) => docDir(documentId, d));
   await Promise.all(dirs.map((dir) => fs.mkdir(dir, { recursive: true })));
@@ -154,35 +165,57 @@ export async function resumePipeline(project: ResumeProject): Promise<VideoProje
   if (settingsChanged) videoProject = null;
   if (!videoProject) {
     project.onProgress?.("✓ Creating storyboard");
+    project.onStepProgress?.({ step: "overview", status: "running" });
     const overview = await generateOverview(documentId, settings);
     videoProject = projectFromOverview(documentId, overview, settings);
     await saveStoryboard(documentId, videoProject);
+    project.onStepProgress?.({ step: "overview", status: "completed" });
     console.log(`[VIDEO] Saved storyboard with ${videoProject.scenes.length} scenes`);
   } else {
     console.log("[RESUME] Overview exists");
   }
 
   project.onProgress?.("✓ Generating images");
+  project.onStepProgress?.({ step: "images", status: "running", current: 0, total: videoProject.scenes.length });
   const nextImageScene = await reportAssetProgress(documentId, "Images", videoProject.scenes);
   if (nextImageScene !== null) console.log(`[RESUME] Continuing from Scene ${nextImageScene}`);
-  const imageScenes = await generateSceneImages(documentId, videoProject.scenes, { force: force || settingsChanged });
+  const imageScenes = await generateSceneImages(documentId, videoProject.scenes, {
+    force: force || settingsChanged,
+    onProgress: (current, total) => project.onStepProgress?.({ step: "images", status: "running", current, total }),
+  });
   videoProject = { ...videoProject, scenes: imageScenes };
+  project.onStepProgress?.({ step: "images", status: "completed" });
   await saveStoryboard(documentId, videoProject);
 
   project.onProgress?.("✓ Generating narration");
+  project.onStepProgress?.({ step: "audio", status: "running", current: 0, total: videoProject.scenes.length });
   const nextAudioScene = await reportAssetProgress(documentId, "Audio", videoProject.scenes);
   if (nextAudioScene !== null) console.log(`[RESUME] Continuing from Scene ${nextAudioScene}`);
-  const audioScenes = await generateNarrations(documentId, videoProject.scenes, { force: force || settingsChanged, voice: settings.voice });
+  const audioScenes = await generateNarrations(documentId, videoProject.scenes, {
+    force: force || settingsChanged,
+    voice: settings.voice,
+    onProgress: (current, total) => project.onStepProgress?.({ step: "audio", status: "running", current, total }),
+  });
   videoProject = { ...videoProject, scenes: audioScenes };
+  project.onStepProgress?.({ step: "audio", status: "completed" });
   await saveStoryboard(documentId, videoProject);
 
   const fullScript = videoProject.scenes.map((scene) => `[Scene ${scene.scene}] ${scene.narration}`).join("\n\n");
   await fs.writeFile(docDir(documentId, "scripts", "script.txt"), fullScript);
 
   project.onProgress?.("✓ Rendering scenes");
-  project.onProgress?.("✓ Merging final video");
+  project.onStepProgress?.({ step: "clips", status: "running", current: 0, total: videoProject.scenes.length });
   console.log(force ? "[VIDEO] Force rendering overview video" : "[VIDEO] Rendering overview video");
-  await renderVideo(documentId, videoProject, force || settingsChanged);
+  await renderVideo(documentId, videoProject, force || settingsChanged, (current, total) => {
+    project.onStepProgress?.({ step: "clips", status: "running", current, total });
+  });
+  project.onStepProgress?.({ step: "clips", status: "completed" });
+
+  project.onProgress?.("✓ Merging final video");
+  project.onStepProgress?.({ step: "rendering", status: "running", current: 0, total: 100 });
+  project.onStepProgress?.({ step: "rendering", status: "running", current: 50, total: 100 });
+  project.onStepProgress?.({ step: "rendering", status: "running", current: 100, total: 100 });
+  project.onStepProgress?.({ step: "rendering", status: "completed" });
 
   document.overview = { title: videoProject.title, duration: videoProject.duration, sceneCount: videoProject.sceneCount, generatedAt: new Date() };
   document.storyboard = { status: "ready", scenes: videoProject.scenes };
@@ -190,9 +223,10 @@ export async function resumePipeline(project: ResumeProject): Promise<VideoProje
   await document.save();
 
   console.log("[VIDEO] Completed");
+  project.onStepProgress?.({ step: "completed", status: "completed", message: "Video generated successfully" });
   return videoProject;
 }
 
-export async function runVideoPipeline(documentId: string, options: { force?: boolean; settings?: VideoSettings; onProgress?: (message: string) => void } = {}): Promise<VideoProject> {
-  return resumePipeline({ documentId, force: options.force, settings: options.settings, onProgress: options.onProgress });
+export async function runVideoPipeline(documentId: string, options: { force?: boolean; settings?: VideoSettings; onProgress?: (message: string) => void; onStepProgress?: (progress: StepProgress) => void } = {}): Promise<VideoProject> {
+  return resumePipeline({ documentId, force: options.force, settings: options.settings, onProgress: options.onProgress, onStepProgress: options.onStepProgress });
 }

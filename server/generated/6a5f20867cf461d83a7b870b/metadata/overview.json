@@ -1,0 +1,52 @@
+{
+  "documentId": "6a5f20867cf461d83a7b870b",
+  "overview": {
+    "title": "Retenzy Customer Retention Platform",
+    "duration": "50 seconds",
+    "scenes": [
+      {
+        "scene": 1,
+        "duration": "10 sec",
+        "narration": "Retenzy is an all-in-one retention platform founded in 2023, designed specifically to help Shopify e-commerce brands maximize Customer Lifetime Value.",
+        "visual": "A digital dashboard showing rewards, referrals, and reviews integrated on a Shopify storefront."
+      },
+      {
+        "scene": 2,
+        "duration": "10 sec",
+        "narration": "Through gamified loyalty programs and VIP tiers, brands can create points-based economies and offer exclusive perks that encourage repeat purchases.",
+        "visual": "A smartphone displaying a points balance, milestone goals, and unlocked membership rewards."
+      },
+      {
+        "scene": 3,
+        "duration": "10 sec",
+        "narration": "Retenzy automates social proof by gathering text, photo, and video reviews, then syncing them with Google Shopping to boost search engine optimization.",
+        "visual": "An automated review request email turning into a gold star rating on Google."
+      },
+      {
+        "scene": 4,
+        "duration": "10 sec",
+        "narration": "With over fifteen pre-built storefront widgets, e-commerce stores can deploy these complex loyalty systems instantly, without writing a single line of code.",
+        "visual": "A drag-and-drop interface showing code-free widget installation onto an online store."
+      },
+      {
+        "scene": 5,
+        "duration": "10 sec",
+        "narration": "By combining loyalty programs with automated email marketing flows for cart recovery and post-purchase follow-ups, Retenzy nurtures long-term customer advocacy.",
+        "visual": "A flowchart connecting email automation triggers to an increasing customer retention curve graph."
+      }
+    ]
+  },
+  "settings": {
+    "duration": "50 seconds",
+    "sceneCount": 5,
+    "imageStyle": "Educational Illustration",
+    "voice": "Female",
+    "narrationStyle": "Professional",
+    "audience": "College Students",
+    "language": "English",
+    "subtitles": false,
+    "backgroundMusic": false,
+    "transitions": "Fade",
+    "aspectRatio": "16:9"
+  }
+}

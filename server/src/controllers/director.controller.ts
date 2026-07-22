@@ -7,6 +7,7 @@ import DocumentModel from "../models/Document.model.js";
 import { generateSceneImages } from "../services/imageGeneration.service.js";
 import { generateNarrations } from "../services/tts.service.js";
 import { renderVideo } from "../services/videoRenderer.service.js";
+import { sseManager } from "../services/sse.service.js";
 
 interface DirectorJob {
   status: "running" | "completed" | "failed";
@@ -47,25 +48,49 @@ export async function startDirectorVideoGeneration(req: Request, res: Response):
   directorJobs.set(jobId, job);
   res.status(202).json({ success: true, jobId });
 
+  const emit = (step: string, status: "running" | "completed" | "failed", data?: { current?: number; total?: number; message?: string }) => {
+    sseManager.emitProgress(documentId, { step, status, ...data });
+  };
+
   const execute = async (): Promise<VideoProject> => {
     if (action === "full") {
-      return runVideoPipeline(documentId, { force: true, settings, onProgress: (message) => job.progress.push(message) });
+      return runVideoPipeline(documentId, {
+        force: true,
+        settings,
+        onProgress: (message) => job.progress.push(message),
+        onStepProgress: (progress) => sseManager.emitProgress(documentId, progress),
+      });
     }
 
     const document = await DocumentModel.findById(documentId);
     if (!document?.storyboard?.scenes.length) throw new Error("Create a storyboard before running this action.");
     if (action === "images") {
-      job.progress.push("✓ Regenerating images");
-      document.storyboard.scenes = await generateSceneImages(documentId, document.storyboard.scenes, { force: true });
+      emit("images", "running", { current: 0, total: document.storyboard.scenes.length });
+      document.storyboard.scenes = await generateSceneImages(documentId, document.storyboard.scenes, {
+        force: true,
+        onProgress: (current, total) => emit("images", "running", { current, total }),
+      });
       await document.save();
+      emit("images", "completed");
     } else if (action === "narration") {
-      job.progress.push("✓ Regenerating narration");
-      document.storyboard.scenes = await generateNarrations(documentId, document.storyboard.scenes, { force: true, voice: settings?.voice });
+      emit("audio", "running", { current: 0, total: document.storyboard.scenes.length });
+      document.storyboard.scenes = await generateNarrations(documentId, document.storyboard.scenes, {
+        force: true,
+        voice: settings?.voice,
+        onProgress: (current, total) => emit("audio", "running", { current, total }),
+      });
       await document.save();
+      emit("audio", "completed");
     } else {
-      job.progress.push("✓ Rendering scenes");
-      job.progress.push("✓ Merging final video");
-      await renderVideo(documentId, { scenes: document.storyboard.scenes, settings }, true);
+      emit("clips", "running", { current: 0, total: document.storyboard.scenes.length });
+      await renderVideo(documentId, { scenes: document.storyboard.scenes, settings }, true, (current, total) => {
+        emit("clips", "running", { current, total });
+      });
+      emit("clips", "completed");
+      emit("rendering", "running", { current: 0, total: 100 });
+      emit("rendering", "running", { current: 50, total: 100 });
+      emit("rendering", "running", { current: 100, total: 100 });
+      emit("rendering", "completed");
     }
     return {
       title: document.overview?.title ?? document.originalName,
@@ -80,9 +105,11 @@ export async function startDirectorVideoGeneration(req: Request, res: Response):
     job.result = result;
     job.status = "completed";
     job.progress.push("✅ Video generation completed.");
+    sseManager.emitComplete(documentId, "Video generated successfully");
   }).catch((error: unknown) => {
     job.status = "failed";
     job.error = error instanceof Error ? error.message : String(error);
+    sseManager.emitError(documentId, error instanceof Error ? error.message : String(error));
   });
 }
 

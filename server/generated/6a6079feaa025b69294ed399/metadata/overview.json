@@ -1,0 +1,28 @@
+{
+  "documentId": "6a6079feaa025b69294ed399",
+  "overview": {
+    "title": "Introducción a Retenzy",
+    "duration": "10 seconds",
+    "scenes": [
+      {
+        "scene": 1,
+        "duration": "10 sec",
+        "narration": "Retenzy optimiza el valor del cliente en Shopify integrando lealtad, reseñas y referidos en una sola plataforma.",
+        "visual": "Diagrama simple que conecta programas de lealtad, reseñas y referidos en Shopify."
+      }
+    ]
+  },
+  "settings": {
+    "duration": "10 seconds",
+    "sceneCount": 1,
+    "imageStyle": "Educational Illustration",
+    "voice": "female",
+    "narrationStyle": "Professional",
+    "audience": "College Students",
+    "language": "Spanish",
+    "subtitles": false,
+    "backgroundMusic": false,
+    "transitions": "Fade",
+    "aspectRatio": "16:9"
+  }
+}
